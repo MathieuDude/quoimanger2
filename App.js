@@ -2,10 +2,17 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as firebase from 'firebase';
+//navigation
+import { createStackNavigator } from '@react-navigation/stack';
+
 
 import ApiKeys from './ApiKeys';
 
-firebase.initializeApp(ApiKeys.firebaseConfig);
+//checks if firebase is initialized and initializes it if not
+if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
+
+
+const dbh = firebase.firestore();
 
 
 export default class App extends React.Component {
@@ -17,9 +24,6 @@ export default class App extends React.Component {
     this.state= {
       isLoadingComplete: false,
     }
-
-    if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
-
   }
 
 
