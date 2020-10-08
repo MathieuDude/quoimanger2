@@ -1,0 +1,12 @@
+{
+  "name": "quoimanger",
+  "displayName": "quoimanger",
+  "expo": {
+    "name": "quoimanger",
+    "slug": "quoimanger",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
