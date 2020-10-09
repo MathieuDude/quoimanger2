@@ -11,6 +11,8 @@ import Header from './components/Header';
 
 import ApiKeys from './ApiKeys';
 
+const Stack = createStackNavigator();
+
 //checks if firebase is initialized and initializes it if not
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
@@ -33,7 +35,9 @@ const DATA = [
 
 const Item = ({title}) => (
   <View>
+    <TouchableOpacity>
       <Text style={styles.item}>{title}</Text>
+    </TouchableOpacity>
   </View>
 );
 
@@ -56,6 +60,7 @@ export default class App extends React.Component {
   
   render (){
     return(
+      
     <View style={styles.container}>
       <StatusBar style="auto" />
 
