@@ -18,14 +18,15 @@ if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 const dbh = firebase.firestore();
 const Stack = createStackNavigator();
 
+
 const DATA = [
   {
-      id: 1,
-      title: 'salon 1',
+    id: 1,
+    title: 'salon 1',
   },
   {
-      id: 2,
-      title: 'salon 2',
+    id: 2,
+    title: 'salon 2',
   }
 ];
 
