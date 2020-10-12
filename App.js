@@ -1,5 +1,6 @@
 import React from 'react';
 import * as firebase from 'firebase';
+
 //navigation
 import 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -14,7 +15,6 @@ import ApiKeys from './ApiKeys';
 //checks if firebase is initialized and initializes it if not
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
-const dbh = firebase.firestore();
 const Stack = createStackNavigator();
 
 export default class App extends React.Component {
@@ -52,3 +52,4 @@ export default class App extends React.Component {
     );
   }
 }
+
