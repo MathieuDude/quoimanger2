@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 //local files
 import Header from './components/Header';
 import Home from './screens/Home';
+import Salon from './screens/Salon';
 
 import ApiKeys from './ApiKeys';
 
@@ -35,6 +36,16 @@ export default class App extends React.Component {
             name="Home" 
             component={Home} 
             options={{header: props => <Header title="Quoi manger?"/>}}
+          />
+           <Stack.Screen
+            name="Salon" 
+            component={Salon} 
+            options={
+              ({route}) => ({
+                salonId: route.params.salonId, 
+                title: route.params.title,
+              })
+            }
           />
         </Stack.Navigator>
       </NavigationContainer>

@@ -4,33 +4,34 @@ import { Text, TouchableOpacity, View, FlatList} from 'react-native';
 import SalonItem from '../components/SalonItem';
 import styles from '../styles';
 
-//Data temporaire pour tests seulement
+//TODO: linker les données avec la BD pour les afficher dans la flatlist
 const DATA = [
     {
-      id: 1,
-      title: 'salon 1',
+      salonId: 1,
+      title: 'Salon de Jul',
     },
     {
-      id: 2,
-      title: 'salon 2',
-    }
+      salonId: 2,
+      title: 'Salon de Tommy',
+    },
+    {
+      salonId: 3,
+      title: 'Salon de Mathieu',
+    },
   ];
-
-const renderItem = ({item, navigation}) => (
-    //Passer cette balise directement dans la flatlist ne fonctionnais pas :(
-    <SalonItem salonItem={item} navigation={navigation}/>
-  );
   
 const Home = (navigation) => {
     return(
         <View style={styles.container}>
-        <StatusBar style="auto" />
-        <Text style={styles.sousTitre}>Salons</Text>
-        <FlatList
-            data={DATA}
-            keyExtractor={item => item.id}
-            renderItem={renderItem}
-        />
+          <StatusBar style="auto" />
+          <Text style={styles.sousTitre}>Salons</Text>
+          <FlatList
+              data={DATA}
+              keyExtractor={item => item.salonId}
+              renderItem={({item}) =>
+                <SalonItem salonItem={item} nav={navigation}/>
+              }
+          />
         </View>
     );
 }

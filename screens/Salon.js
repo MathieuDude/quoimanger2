@@ -1,2 +1,15 @@
-//TODO: faire afficher la page du salon avec son title en haut, préférablement avant mercredi
-// un hint: la demo de navigation à partir d'une list, que j'ai envoyé dans le groupe discord ;)
+import React from 'react';
+import { Text, View } from 'react-native';
+import styles from '../styles';
+
+const Salon = ({route}) => {
+    const {salonId} = route.params;
+    const {title} = route.params;
+    return(
+        <View style={styles.container}>
+            <Text>id du salon: {salonId}</Text>
+        </View>
+    );
+}
+
+export default Salon;
