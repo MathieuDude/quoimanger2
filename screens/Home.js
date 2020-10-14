@@ -12,7 +12,6 @@ if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
 //initialize DB
 const dbh = firebase.firestore();
-//TODO: linker les données avec la BD pour les afficher dans la flatlist
 
 const DATA = [
     {
@@ -34,21 +33,13 @@ const Home = (navigation) => {
             querySnapshot.forEach(function(doc) {
                 console.log('doc.data:');
                 console.log(doc.data());
-                //this does not work obviously
                 tempDATA.push({   
                     "salonId": doc.get('salonId'),
                     "title": doc.get('title')
                 });
-                    
-                
-
-                console.log('tempData:');
-                console.log(tempDATA); 
-
-                setData(tempDATA);
 
             });
-            setIsLoading(false)
+            setIsLoading(false);
             
         })
         .catch(function(error) {
