@@ -54,6 +54,12 @@ const styles = StyleSheet.create({
         color: "#F3F3F3",
         fontSize: 28,
         fontWeight: '900',
+    },
+    btnNavCreationSalon: {
+        padding: 10,
+        marginVertical: 8,
+        marginHorizontal: 50,
+        fontSize: 24,
     }
   });
 
