@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { Text, TouchableOpacity, View, FlatList, ActivityIndicator} from 'react-native';
+import { AntDesign } from '@expo/vector-icons'; 
 import SalonItem from '../components/SalonItem';
 import styles from '../styles';
 import ApiKeys from '../ApiKeys';
-
 
 import * as firebase from 'firebase';
 
@@ -13,7 +13,7 @@ if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 //initialize DB
 const dbh = firebase.firestore();
 
-const DATA = [
+var salonsData = [
     {
         salonId: 2,
         title: 'Salon de Jul',
@@ -22,18 +22,18 @@ const DATA = [
 
 const Home = (navigation) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState([]);
-
-    var tempDATA = DATA;
 
     if(isLoading == true){
+        
         dbh.collection("lobbies")
         .get()
         .then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
+                
+                
                 console.log('doc.data:');
                 console.log(doc.data());
-                tempDATA.push({   
+                salonsData.push({   
                     "salonId": doc.get('salonId'),
                     "title": doc.get('title')
                 });
@@ -45,14 +45,11 @@ const Home = (navigation) => {
         .catch(function(error) {
             console.log("Error getting documents: ", error);
         });
-
-        console.log('DATA FINAL:');
-        console.log(data);
-        
     }
 
-    
-
+    console.log('DATA FINAL:');
+    console.log(salonsData);
+    console.log(navigation);
 
     // if(isLoading){
     //     return(
@@ -66,20 +63,22 @@ const Home = (navigation) => {
             <View style={styles.container}>
                 <StatusBar style="auto" />
                 <Text style={styles.sousTitre}>Salons</Text>
+                <TouchableOpacity onPress={() => navigation.navigate('CreationSalon')}>
+                    <Text style={styles.btnNavCreationSalon}>
+                        <AntDesign name="pluscircleo" size={32} color="green" style={styles.paddingRight}/>
+                        Nouveau Salon
+                    </Text>
+                </TouchableOpacity> 
                 <FlatList
-                    data={tempDATA}
+                    data={salonsData}
                     keyExtractor={item => item.salonId}
                     renderItem={({item}) =>
-                    <SalonItem salonItem={item} nav={navigation}/>
+                        <SalonItem salonItem={item} nav={navigation}/>
                     }
                 />
             </View>
         );
-
     // }
-    
-
-    
 }
 
 export default Home;

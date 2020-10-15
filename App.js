@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import Header from './components/Header';
 import Home from './screens/Home';
 import Salon from './screens/Salon';
+import CreationSalon from './screens/CreationSalon';
 
 import ApiKeys from './ApiKeys';
 
@@ -37,7 +38,7 @@ export default class App extends React.Component {
             component={Home} 
             options={{header: props => <Header title="Quoi manger?"/>}}
           />
-           <Stack.Screen
+          <Stack.Screen
             name="Salon" 
             component={Salon} 
             options={
@@ -46,6 +47,11 @@ export default class App extends React.Component {
                 title: route.params.title,
               })
             }
+          />
+          <Stack.Screen
+            name="CreationSalon" 
+            component={CreationSalon}
+            options={{header: props => <Header title="Créer un salon"/>}}
           />
         </Stack.Navigator>
       </NavigationContainer>
