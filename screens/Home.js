@@ -24,10 +24,13 @@ const Home = (navigation) => {
     const [isLoading, setIsLoading] = useState(true);
 
     if(isLoading == true){
+        
         dbh.collection("lobbies")
         .get()
         .then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
+                
+                
                 console.log('doc.data:');
                 console.log(doc.data());
                 salonsData.push({   
