@@ -5,11 +5,18 @@ const styles = StyleSheet.create({
       paddingTop: 23,
       flex: 1,
     },
+    formContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        paddingTop: 10,
+        paddingBottom: 35,
+        alignItems: 'center',
+    },
     sousTitre: {
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         paddingTop: 10,
-        fontSize: 20,
+        fontSize: 24,
         fontWeight: 'bold',
         textAlign: 'center'
     },
@@ -26,22 +33,29 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         paddingHorizontal: 15
     },
-    button: {
-        width: '45%',
+    buttonYellow: {
+        width: '100%',
         backgroundColor: '#FFBF00',
-        padding: 10
+        textAlign: "center",
+        padding: 10,
+        fontWeight: "bold",
+        fontSize: 18
     },
-    item: {
-        backgroundColor: '#D3D3D3',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16
+    buttonBlue: {
+        width: '100%',
+        backgroundColor: '#28ADEA',
+        textAlign: "center",
+        padding: 10,
+        fontWeight: "bold",
+        fontSize: 18
     },
     salonItem: {
         backgroundColor: '#D3D3D3',
-        padding: 20,
+        padding: 15,
         marginVertical: 8,
-        marginHorizontal: 16
+        marginHorizontal: 16,
+        textAlign: "center",
+        fontWeight: "bold"
     },
     header:{
         backgroundColor: "#171717",
@@ -55,11 +69,24 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: '900',
     },
-    btnNavCreationSalon: {
-        padding: 10,
-        marginVertical: 8,
-        marginHorizontal: 50,
+    txtInput: {
+        marginBottom: 20,
+        padding: 6,
+        width: "90%",
         fontSize: 24,
+        height: 45,
+        borderColor: "#C6C6C6",
+        borderRadius: 10,
+        borderWidth: 4,
+    },
+    btnText: {
+        textAlign: 'center',
+        color: 'white',
+      },
+    formLabel:{
+        textAlign: 'center',
+        fontSize: 22,
+        fontWeight: "bold"
     }
   });
 
