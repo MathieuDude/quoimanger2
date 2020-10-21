@@ -11,7 +11,7 @@ const SalonItem = (props) => {
     const nav = props.nav;
     return (
         <View>
-            <TouchableOpacity onPress={() => nav.navigation.navigate('Salon', {salonId: salonItem.salonId, title: salonItem.title})}>
+            <TouchableOpacity onPress={() => nav.navigation.navigate('Salon', {salonId: salonItem.salonId, title: salonItem.title, password: salonItem.password})}>
                 <Text style={styles.salonItem}>{salonItem.title}</Text> 
             </TouchableOpacity> 
         </View>
