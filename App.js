@@ -10,6 +10,7 @@ import Header from './components/Header';
 import Home from './screens/Home';
 import Salon from './screens/Salon';
 import CreationSalon from './screens/CreationSalon';
+import styles from './styles';
 
 import ApiKeys from './ApiKeys';
 
@@ -51,7 +52,7 @@ export default class App extends React.Component {
           <Stack.Screen
             name="CreationSalon" 
             component={CreationSalon}
-            options={{header: props => <Header title="Créer un salon"/>}}
+            options={{title: "Création de salon"}}
           />
         </Stack.Navigator>
       </NavigationContainer>
