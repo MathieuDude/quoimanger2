@@ -13,50 +13,53 @@ if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 const dbh = firebase.firestore();
 
 var salonsData = [
-    {
-        salonId: 2,
-        title: 'Salon de Jul',
-    }
+    // {
+    //     salonId: 2,
+    //     title: 'Salon de Jul',
+    // }
 ];
+
+
 
 const Home = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(true);
 
+    //jai transplanter ceci dans une fonction pour poouvoir eventuellement mettre un bouton refresh
+    function getLobbies()
+    {
+        dbh.collection("lobbies")
+            .get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    
+                    
+                    console.log('doc.data:');
+                    console.log(doc.data());
+                    salonsData.push({   
+                        "salonId": doc.get('salonId'),
+                        "title": doc.get('title'),
+                        "password": doc.get('password')
+                    });
+
+                });
+                setIsLoading(false);
+                
+            })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
+
+    }
+
     if(isLoading == true){
         
-        dbh.collection("lobbies")
-        .get()
-        .then(function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                
-                
-                console.log('doc.data:');
-                console.log(doc.data());
-                salonsData.push({   
-                    "salonId": doc.get('salonId'),
-                    "title": doc.get('title')
-                });
-
-            });
-            setIsLoading(false);
-            
-        })
-        .catch(function(error) {
-            console.log("Error getting documents: ", error);
-        });
+        getLobbies();
     }
 
     console.log('DATA FINAL:');
     console.log(salonsData);
 
-    // if(isLoading){
-    //     return(
-    //       <View style={styles.preloader}>
-    //         <ActivityIndicator size="large" color="#9E9E9E"/>
-    //       </View>
-    //     )
-    // }
-    // else{
+
         return(
             <View style={styles.container}>
                 <StatusBar style="auto" />
@@ -75,7 +78,6 @@ const Home = ({navigation}) => {
                 </TouchableOpacity> 
             </View>
         );
-    // }
 }
 
 export default Home;
