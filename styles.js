@@ -49,6 +49,15 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 18
     },
+    buttonVote: {
+        borderWidth:1,
+        borderColor:'rgba(0,0,0,0.2)',
+        alignItems:'center',
+        width:75,
+        height:75,
+        backgroundColor:'#fff',
+        borderRadius:20,
+    },
     salonItem: {
         backgroundColor: '#D3D3D3',
         padding: 15,

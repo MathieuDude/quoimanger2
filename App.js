@@ -3,13 +3,14 @@ import * as firebase from 'firebase';
 
 //navigation
 import 'react-native-gesture-handler';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createStackNavigator, StackView } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 //local files
 import Header from './components/Header';
 import Home from './screens/Home';
 import Salon from './screens/Salon';
 import CreationSalon from './screens/CreationSalon';
+import PropositionResto from './screens/PropositionResto';
 import styles from './styles';
 
 import ApiKeys from './ApiKeys';
@@ -48,6 +49,11 @@ export default class App extends React.Component {
                 title: route.params.title,
               })
             }
+          />
+          <Stack.Screen
+            name="PropositionResto" 
+            component={PropositionResto}
+            options={{}}
           />
           <Stack.Screen
             name="CreationSalon" 
