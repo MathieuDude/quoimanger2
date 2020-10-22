@@ -58,6 +58,25 @@ const styles = StyleSheet.create({
         backgroundColor:'#fff',
         borderRadius:20,
     },
+    voteContainer: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        height: 100,
+        width: '100%',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'flex-end'
+    },
+    imgResto: {
+        width: '100%',
+        height: '80%',
+
+    },
+    sousTitre: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
     salonItem: {
         backgroundColor: '#D3D3D3',
         padding: 15,
