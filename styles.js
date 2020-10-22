@@ -72,6 +72,12 @@ const styles = StyleSheet.create({
         height: '80%',
 
     },
+    nomResto: {
+        fontWeight: 'bold',
+        fontSize: 18,
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+    },
     sousTitre: {
         fontSize: 24,
         fontWeight: 'bold',

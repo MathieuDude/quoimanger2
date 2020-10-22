@@ -6,7 +6,7 @@ import * as firebase from 'firebase';
 const dbh = firebase.firestore();
 
 
-const CreationSalon = ({route}) => {
+const CreationSalon = ({route, navigation}) => {
   const [nomSalon, setNomSalon] = useState("");
   const [motDePasse, setmotDePasse] = useState("");
 
@@ -48,7 +48,10 @@ const CreationSalon = ({route}) => {
           onChangeText={(motDePasse) => setmotDePasse(motDePasse)}
           value={motDePasse}
         />
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => ajouterSalon()}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+          ajouterSalon()
+          navigation.navigate('Home')
+          }}>
             <Text style={styles.buttonBlue}>Créer</Text>
         </TouchableOpacity>
       </View>

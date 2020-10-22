@@ -8,14 +8,14 @@ const PropositionResto = ({route}) => {
     const DATA = [
         {
             id: 1,
-            name: 'Les Passiones',
-            image: {restoImg}
+            name: 'Les Passionnés',
+            image: restoImg
         }
     ];
     return (
         <View style={styles.propoContainer}>
-            <Image style={styles.imgResto} source={restoImg}/>
-            <Text style={styles.nomResto}>ALLo</Text>
+            <Image style={styles.imgResto} source={DATA[0].image}/>
+            <Text style={styles.nomResto}>{DATA[0].name}</Text>
             <View style={styles.voteContainer}>
                 <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
                     <Ionicons name="md-close" size={75} color="red"/>
