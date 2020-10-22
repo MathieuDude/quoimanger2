@@ -71,7 +71,7 @@ const Home = ({navigation}) => {
                         <SalonItem salonItem={item} nav={{navigation}}/>
                     }
                 />
-                
+
                 <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('PropositionResto')}>
                     <Text style={styles.buttonBlue}>
                         Test Resto
