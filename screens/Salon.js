@@ -7,16 +7,23 @@ import { Alert,
     View, Button, TextInput } from 'react-native';
 import styles from '../styles';
 
-const Salon = ({route}) => {
+const Salon = ({route, navigation}) => {
     const {salonId} = route.params;
     const {title} = route.params;
     const {password} = route.params;
     const [modalVisible, setModalVisible] = useState(true);
     const [enteredPass, setEnteredPass] = useState("");
 
+    function checkPass(inputedPass)
+    {
+        if(inputedPass != password)
+        {
+            Alert.alert("Mot de passe incorrecte.");
+        }
+        else{ setModalVisible(!modalVisible); }
+    }
 
-
-
+    
 
     return(
         <View style={styles.container}>
@@ -25,31 +32,32 @@ const Salon = ({route}) => {
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    Alert.alert("Modal has been closed.");
+                    navigation.goBack();
                 }}
             >
                 <View style={styles.centeredView}>
-                <View style={styles.modalView}>
-                    <Text style={styles.formLabel}>Mot de passe:</Text>
-                    <TextInput
-                    style={styles.txtInput}
-                    onChangeText={(enteredPass) => setEnteredPass(enteredPass)}
-                    value={enteredPass}
-                    />
-                    <TouchableHighlight
-                    style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                    onPress={() => {
-                        setModalVisible(!modalVisible);
-                    }}
-                    >
-                    <Text style={styles.textStyle}>Entrer!</Text>
-                    </TouchableHighlight>
-                </View>
+                    <View style={styles.modalView}>
+                        <Text style={styles.formLabel}>Mot de passe:</Text>
+                        <TextInput
+                        style={styles.txtInput}
+                        onChangeText={(enteredPass) => setEnteredPass(enteredPass)}
+                        value={enteredPass}
+                        />
+                        <TouchableHighlight
+                        style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                        onPress={() => {   
+                            checkPass(enteredPass);
+                        }}
+                        >
+                        <Text style={styles.textStyle}>Entrer!</Text>
+                        </TouchableHighlight>
+                    </View>
                 </View>
             </Modal>
 
 
             <Text>id du salon: {salonId}</Text>
+            <Text>titre du salon: {title}</Text>
             <Text>mdp du salon: {password}</Text>
 
         </View>
