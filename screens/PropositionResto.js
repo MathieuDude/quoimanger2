@@ -27,10 +27,10 @@ const PropositionResto = ({route}) => {
         const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + googleAPIKey
     
         fetch(url)
-          .then(res => {
-            return res.json()
-          })
-          .then(res => {
+            .then(res => {
+                return res.json()
+            })
+            .then(res => {
     
             var places = []; // This Array WIll contain locations received from google
             for(let googlePlace of res.results) {
@@ -58,6 +58,7 @@ const PropositionResto = ({route}) => {
                 place['gallery'] = gallery;
         
                 places.push(place);
+                console.log('COLISSS');
             }
     
             setDetails(places);
