@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
-import googleAPIKey from '../ApiKeys';
 import styles from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 import restoImg from '../Resto.jpg';
@@ -22,55 +21,60 @@ const PropositionResto = ({route}) => {
     fetchNearestPlacesFromGoogle = () => {
 
         const latitude = 45.643894; // you can update it with user's latitude & Longitude
-        const longitude = 73.843219;
+        const longitude = -73.843219;
         let radMetter = 5 * 100; // Search withing 2 KM radius
     
-        const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&key=' + googleAPIKey
-    
+        const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
+       
         fetch(url)
             .then(res => {
                 return res.json()
             })
             .then(res => {
-    
-            var places = []; // This Array WIll contain locations received from google
-            for(let googlePlace of res.results) {
-                var place = {}
-                var lat = googlePlace.geometry.location.lat;
-                var lng = googlePlace.geometry.location.lng;
-                var coordinate = {
-                    latitude: lat,
-                    longitude: lng,
-                }
-    
-              var gallery = []
-    
-                if (googlePlace.photos) {
-                    for(let photo of googlePlace.photos) {
-                        var photoUrl = Urls.GooglePicBaseUrl + photo.photo_reference;
-                        gallery.push(photoUrl);
+            console.log(res);
+            if(res.status !== "ZERO_RESULTS")
+            {
+                var places = []; // This Array WIll contain locations received from google
+                for(let googlePlace of res.results) {
+                    var place = {}
+                    var lat = googlePlace.geometry.location.lat;
+                    var lng = googlePlace.geometry.location.lng;
+                    var coordinate = {
+                        latitude: lat,
+                        longitude: lng,
                     }
-                }
-    
-                place['placeTypes'] = googlePlace.types;
-                place['coordinate'] = coordinate;
-                place['placeId'] = googlePlace.place_id;
-                place['placeName'] = googlePlace.name;
-                place['gallery'] = gallery;
         
-                places.push(place);
-                console.log('COLISSS');
+                var gallery = []
+        
+                    if (googlePlace.photos) {
+                        for(let photo of googlePlace.photos) {
+                            var photoUrl = Urls.GooglePicBaseUrl + photo.photo_reference;
+                            gallery.push(photoUrl);
+                        }
+                    }
+        
+                    place['placeTypes'] = googlePlace.types;
+                    place['coordinate'] = coordinate;
+                    place['placeId'] = googlePlace.place_id;
+                    place['placeName'] = googlePlace.name;
+                    place['gallery'] = gallery;
+                    place['photos'] = photos;
+            
+                    places.push(place);
+                }
+        
+                setDetails(places);
             }
-    
-            setDetails(places);
-            console.log(details);
+            else{
+                //TODO: avertir l'usager qu'aucun resto n'a ete trouvé
+                console.log("Zero resultat");
+            }
           })
           .catch(error => {
             console.log(error);
           });
         
     }
-
 
 
     const DATA = [
@@ -92,17 +96,14 @@ const PropositionResto = ({route}) => {
     ];
 
 
-
     //Tommy's fetch attempt
     const getDetails = async() => {
-        
-        
         //fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=restaurant&inputtype=textquery&fields=name,photos&locationbias=circle:2000@45.643894, -73.843219&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => DATA = resp);
         //const rep = await fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894, -73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs");
         // const res = await rep.json();
         // setDetails(res);
-        console.log("DETAILS GET");
-        console.log(details);
+        //console.log("DETAILS GET");
+        //console.log(details);
     }
 
 
@@ -129,13 +130,9 @@ const PropositionResto = ({route}) => {
 
 
     if(!detailsDone){
-        // PropositionResto();
-        //setState();
-        getDetails();
-        setState();
+        fetchNearestPlacesFromGoogle();
         setDetailsDone(true);
     }
-
 
     return (
         <View style={styles.propoContainer}>

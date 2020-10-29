@@ -31,10 +31,8 @@ const Home = ({navigation}) => {
             .get()
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
-                    
-                    
-                    console.log('doc.data:');
-                    console.log(doc.data());
+                    //console.log('doc.data:');
+                    //console.log(doc.data());
                     salonsData.push({   
                         "salonId": doc.get('salonId'),
                         "title": doc.get('title'),
