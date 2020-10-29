@@ -12,10 +12,11 @@ import ApiKeys from '../ApiKeys';
 
 
 const PropositionResto = ({route}) => {
-    var compteur = 0;
+    //var compteur = 0;
     const [affichage, setAffichage] = useState([]);
     const [details, setDetails] = useState([])
     const [detailsDone, setDetailsDone] = useState(false);
+<<<<<<< Updated upstream
 
     fetchNearestPlacesFromGoogle = () => {
 
@@ -71,6 +72,9 @@ const PropositionResto = ({route}) => {
 
 
     /*const DATA = [
+=======
+    const DATA = [
+>>>>>>> Stashed changes
         {
             id: 0,
             name: 'Les Passionnés',
@@ -86,20 +90,34 @@ const PropositionResto = ({route}) => {
             name: 'Subways',
             image: subImg
         }
+<<<<<<< Updated upstream
     ];*/
 
 
 
     //fonction de vote
+=======
+    ];
+    const getDetails = async() => {
+        //fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=restaurant&inputtype=textquery&fields=name,photos&locationbias=circle:2000@45.643894, -73.843219&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => DATA = resp);
+        //const rep = await fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894, -73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs");
+        const res = await rep.json();
+        setDetails(res);
+        console.log("DETAILS GET");
+        console.log(details);
+    }
+>>>>>>> Stashed changes
     function voterOui(){
-        //var id = affichage.id + 1;
-        //setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
-        compteur = compteur + 1;
-        setAffichage({name: details[compteur].name, image: details[compteur].icon});
+        var id = affichage.id + 1;
+        setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
+        //compteur = compteur + 1;
+        //setAffichage({name: details[compteur].name, image: details[compteur].icon});
     }
     function voterNon(){
         var id = affichage.id + 1;
-        setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].icon});
+        setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
+        //compteur = compteur + 1;
+        //setAffichage({name: DATA[id].name, image: DATA[id].icon});
     }
 
 
@@ -116,19 +134,24 @@ const PropositionResto = ({route}) => {
     
     function setState(){
         if(affichage.length == 0){
-            //setAffichage({id: DATA[0].id, name: DATA[0].name, image: DATA[0].image});
-            setAffichage({name: details[0].name, image: details[0].icon});
+            setAffichage({id: DATA[0].id, name: DATA[0].name, image: DATA[0].image});
+            //setAffichage({name: details[0].name, image: details[0].icon});
         }
     }
     if(!detailsDone){
+<<<<<<< Updated upstream
         PropositionResto();
         //setState();
+=======
+        //getDetails();
+        setState();
+>>>>>>> Stashed changes
         setDetailsDone(true);
     }
     return (
         <View style={styles.propoContainer}>
             <Image style={styles.imgResto} source={affichage.image}/>
-            <Text style={styles.nomResto}>{affichage.name + "+" + details.length}</Text>
+            <Text style={styles.nomResto}>{affichage.name}</Text>
             <View style={styles.voteContainer}>
                 <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
                     <Ionicons name="md-close" size={75} color="red"/>

@@ -56,8 +56,8 @@ const Home = ({navigation}) => {
         getLobbies();
     }
 
-    console.log('DATA FINAL:');
-    console.log(salonsData);
+    //console.log('DATA FINAL:');
+    //console.log(salonsData);
 
 
         return(
