@@ -16,7 +16,6 @@ const PropositionResto = ({route}) => {
     const [affichage, setAffichage] = useState([]);
     const [details, setDetails] = useState([])
     const [detailsDone, setDetailsDone] = useState(false);
-<<<<<<< Updated upstream
 
     fetchNearestPlacesFromGoogle = () => {
 
@@ -72,10 +71,7 @@ const PropositionResto = ({route}) => {
 
 
 
-    /*const DATA = [
-=======
     const DATA = [
->>>>>>> Stashed changes
         {
             id: 0,
             name: 'Les Passionnés',
@@ -91,14 +87,11 @@ const PropositionResto = ({route}) => {
             name: 'Subways',
             image: subImg
         }
-<<<<<<< Updated upstream
-    ];*/
+    ];
 
 
 
     //fonction de vote
-=======
-    ];
     const getDetails = async() => {
         //fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=restaurant&inputtype=textquery&fields=name,photos&locationbias=circle:2000@45.643894, -73.843219&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => DATA = resp);
         //const rep = await fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894, -73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs");
@@ -107,7 +100,6 @@ const PropositionResto = ({route}) => {
         console.log("DETAILS GET");
         console.log(details);
     }
->>>>>>> Stashed changes
     function voterOui(){
         var id = affichage.id + 1;
         setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
@@ -140,13 +132,10 @@ const PropositionResto = ({route}) => {
         }
     }
     if(!detailsDone){
-<<<<<<< Updated upstream
-        PropositionResto();
+        // PropositionResto();
         //setState();
-=======
-        //getDetails();
+        getDetails();
         setState();
->>>>>>> Stashed changes
         setDetailsDone(true);
     }
     return (
