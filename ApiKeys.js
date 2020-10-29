@@ -8,3 +8,9 @@ export default { firebaseConfig: {
     appId: "1:308285374121:web:376afb494a75a9ef7bf3b8",
     measurementId: "G-5RWKYXDL2G"
 }};
+
+export const googleAPIKey = 'AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs';
+
+//test URL
+//https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894,%20-73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs
+

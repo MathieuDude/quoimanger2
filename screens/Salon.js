@@ -13,6 +13,8 @@ const Salon = ({route, navigation}) => {
     const {password} = route.params;
     const [modalVisible, setModalVisible] = useState(true);
     const [enteredPass, setEnteredPass] = useState("");
+    const [enteredName, setEnteredName] = useState("");
+
 
     function checkPass(inputedPass)
     {
@@ -43,6 +45,12 @@ const Salon = ({route, navigation}) => {
                         onChangeText={(enteredPass) => setEnteredPass(enteredPass)}
                         value={enteredPass}
                         />
+                        <Text style={styles.formLabel}>Nom d'usager:</Text>
+                        <TextInput
+                        style={styles.txtInput}
+                        onChangeText={(enteredName) => setEnteredName(enteredName)}
+                        value={enteredName}
+                        />
                         <TouchableHighlight
                         style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                         onPress={() => {   
@@ -59,6 +67,7 @@ const Salon = ({route, navigation}) => {
             <Text>id du salon: {salonId}</Text>
             <Text>titre du salon: {title}</Text>
             <Text>mdp du salon: {password}</Text>
+            <Text>Nom d'usager: {enteredName}</Text>
 
         </View>
     );
