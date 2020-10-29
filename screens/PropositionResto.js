@@ -3,19 +3,47 @@ import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
 import styles from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 import restoImg from '../Resto.jpg';
+import McDoImg from '../McDo.jpg';
+import subImg from '../sub.jpg';
 
 const PropositionResto = ({route}) => {
+    const [affichage, setAffichage] = useState([]);
     const DATA = [
         {
-            id: 1,
+            id: 0,
             name: 'Les Passionnés',
             image: restoImg
+        },
+        {
+            id: 1,
+            name: 'McDonalds',
+            image: McDoImg
+        },
+        {
+            id: 2,
+            name: 'Subways',
+            image: subImg
         }
     ];
+    function voterOui(){
+        var id = affichage.id + 1;
+        setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
+    }
+    function voterNon(){
+        var id = affichage.id + 1;
+        setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
+    }
+    function setState(){
+        console.log(affichage);
+        if(affichage.length == 0){
+            setAffichage({id: DATA[0].id, name: DATA[0].name, image: DATA[0].image});
+        }
+    }
     return (
         <View style={styles.propoContainer}>
-            <Image style={styles.imgResto} source={DATA[0].image}/>
-            <Text style={styles.nomResto}>{DATA[0].name}</Text>
+            {setState()}
+            <Image style={styles.imgResto} source={affichage.image}/>
+            <Text style={styles.nomResto}>{affichage.name}</Text>
             <View style={styles.voteContainer}>
                 <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
                     <Ionicons name="md-close" size={75} color="red"/>
