@@ -17,6 +17,8 @@ const PropositionResto = ({route}) => {
     const [details, setDetails] = useState([])
     const [detailsDone, setDetailsDone] = useState(false);
 
+
+    //mathieu's fetch attempt
     fetchNearestPlacesFromGoogle = () => {
 
         const latitude = 45.643894; // you can update it with user's latitude & Longitude
@@ -91,16 +93,14 @@ const PropositionResto = ({route}) => {
 
 
 
-    
+    //Tommy's fetch attempt
     const getDetails = async() => {
         
         
         //fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=restaurant&inputtype=textquery&fields=name,photos&locationbias=circle:2000@45.643894, -73.843219&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => DATA = resp);
         //const rep = await fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894, -73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs");
-        
-        
-        const res = await rep.json();
-        setDetails(res);
+        // const res = await rep.json();
+        // setDetails(res);
         console.log("DETAILS GET");
         console.log(details);
     }
@@ -136,7 +136,7 @@ const PropositionResto = ({route}) => {
         setDetailsDone(true);
     }
 
-    
+
     return (
         <View style={styles.propoContainer}>
             <Image style={styles.imgResto} source={affichage.image}/>
