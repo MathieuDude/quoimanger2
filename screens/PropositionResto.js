@@ -91,39 +91,34 @@ const PropositionResto = ({route}) => {
 
 
 
-    //fonction de vote
+    
     const getDetails = async() => {
+        
+        
         //fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=restaurant&inputtype=textquery&fields=name,photos&locationbias=circle:2000@45.643894, -73.843219&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => DATA = resp);
         //const rep = await fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894, -73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs");
+        
+        
         const res = await rep.json();
         setDetails(res);
         console.log("DETAILS GET");
         console.log(details);
     }
+
+
+    //fonction de vote
     function voterOui(){
         var id = affichage.id + 1;
         setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
         //compteur = compteur + 1;
-        //setAffichage({name: details[compteur].name, image: details[compteur].icon});
     }
     function voterNon(){
         var id = affichage.id + 1;
         setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
         //compteur = compteur + 1;
-        //setAffichage({name: DATA[id].name, image: DATA[id].icon});
+
     }
 
-
-
-    // const getDetails = () => {
-    //     // //fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=restaurant&inputtype=textquery&fields=name,photos&locationbias=circle:2000@45.643894, -73.843219&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => DATA = resp);
-    //     // fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894, -73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => setDetails(resp));
-    //     // console.log("DETAILS GET");
-
-    //     fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894,%20-73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.text()).then(resp => setDetails(resp));
-    //     console.log(details);
-
-    // }
     
     function setState(){
         if(affichage.length == 0){
@@ -131,6 +126,8 @@ const PropositionResto = ({route}) => {
             //setAffichage({name: details[0].name, image: details[0].icon});
         }
     }
+
+
     if(!detailsDone){
         // PropositionResto();
         //setState();
@@ -138,6 +135,8 @@ const PropositionResto = ({route}) => {
         setState();
         setDetailsDone(true);
     }
+
+    
     return (
         <View style={styles.propoContainer}>
             <Image style={styles.imgResto} source={affichage.image}/>
