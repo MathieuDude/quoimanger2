@@ -9,7 +9,9 @@ import subImg from '../sub.jpg';
 const PropositionResto = ({route}) => {
     var compteur = 0;
     const [affichage, setAffichage] = useState([]);
-    /*const DATA1 = [
+    const [details, setDetails] = useState([])
+    const [detailsDone, setDetailsDone] = useState(false);
+    /*const DATA = [
         {
             id: 0,
             name: 'Les Passionnés',
@@ -26,11 +28,12 @@ const PropositionResto = ({route}) => {
             image: subImg
         }
     ];*/
-    const [details, setDetails] = useState([])
     const getDetails = () => {
         //fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=restaurant&inputtype=textquery&fields=name,photos&locationbias=circle:2000@45.643894, -73.843219&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => DATA = resp);
-        fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894, -73.843219&radius=2000&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => setDetails(resp));
-      }
+        fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894, -73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => setDetails(resp));
+        console.log("DETAILS GET");
+        console.log(details);
+    }
     function voterOui(){
         //var id = affichage.id + 1;
         //setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
@@ -38,23 +41,24 @@ const PropositionResto = ({route}) => {
         setAffichage({name: details[compteur].name, image: details[compteur].icon});
     }
     function voterNon(){
-        //var id = affichage.id + 1;
-        //setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].icon});
+        var id = affichage.id + 1;
+        setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].icon});
     }
     function setState(){
-        console.log("DETAILS");
-        console.log(details);
         if(affichage.length == 0){
-            //setAffichage({id: DATA[0].id, name: DATA[0].name, image: DATA[0].icon});
+            //setAffichage({id: DATA[0].id, name: DATA[0].name, image: DATA[0].image});
             setAffichage({name: details[0].name, image: details[0].icon});
         }
     }
+    if(!detailsDone){
+        getDetails();
+        //setState();
+        setDetailsDone(true);
+    }
     return (
         <View style={styles.propoContainer}>
-            {getDetails()}
-            {setState()}
             <Image style={styles.imgResto} source={affichage.image}/>
-            <Text style={styles.nomResto}>{affichage.name}</Text>
+            <Text style={styles.nomResto}>{affichage.name + "+" + details.length}</Text>
             <View style={styles.voteContainer}>
                 <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
                     <Ionicons name="md-close" size={75} color="red"/>
