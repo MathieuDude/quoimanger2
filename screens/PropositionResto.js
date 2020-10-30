@@ -1,40 +1,31 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Image } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
 import styles from '../styles';
 import { Ionicons } from '@expo/vector-icons';
-import restoImg from '../Resto.jpg';
-import McDoImg from '../McDo.jpg';
-import subImg from '../sub.jpg';
 import ApiKeys from '../ApiKeys';
 
 
-
-
 const PropositionResto = ({route}) => {
-    //var compteur = 0;
-    const [affichage, setAffichage] = useState([]);
-    const [details, setDetails] = useState([])
-    const [detailsDone, setDetailsDone] = useState(false);
+    let currViewedPlaceId = 0;
+    const [placesDetails, setPlacesDetails] = useState([])
+    const [detailsLoaded, setDetailsLoaded] = useState(false);
 
-
-    //mathieu's fetch attempt
-    fetchNearestPlacesFromGoogle = () => {
-
+    const fetchNearestPlacesFromGoogle = () => {
         const latitude = 45.643894; // you can update it with user's latitude & Longitude
         const longitude = -73.843219;
         let radMetter = 5 * 100; // Search withing 2 KM radius
     
+        const photoMaxWidth = 400;
         const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
-       
+        var places = []; // This Array WIll contain locations received from google
         fetch(url)
             .then(res => {
                 return res.json()
             })
             .then(res => {
-            console.log(res);
             if(res.status !== "ZERO_RESULTS")
             {
-                var places = []; // This Array WIll contain locations received from google
+                var placesId = 0;
                 for(let googlePlace of res.results) {
                     var place = {}
                     var lat = googlePlace.geometry.location.lat;
@@ -44,26 +35,22 @@ const PropositionResto = ({route}) => {
                         longitude: lng,
                     }
         
-                var gallery = []
-        
+                    var gallery = []
                     if (googlePlace.photos) {
                         for(let photo of googlePlace.photos) {
-                            var photoUrl = Urls.GooglePicBaseUrl + photo.photo_reference;
+                            var photoUrl = ApiKeys.googleMapsAPI.googlePicBaseUrl + 'photoreference=' + photo.photo_reference + '&key=' + ApiKeys.googleMapsAPI.key + '&maxwidth=' + photoMaxWidth;
                             gallery.push(photoUrl);
                         }
                     }
-        
-                    place['placeTypes'] = googlePlace.types;
+
+                    place['id'] = placesId++;
                     place['coordinate'] = coordinate;
-                    place['placeId'] = googlePlace.place_id;
-                    place['placeName'] = googlePlace.name;
+                    place['googlePlaceId'] = googlePlace.place_id;
+                    place['name'] = googlePlace.name;
                     place['gallery'] = gallery;
-                    place['photos'] = photos;
-            
                     places.push(place);
                 }
-        
-                setDetails(places);
+                setPlacesDetails(places);
             }
             else{
                 //TODO: avertir l'usager qu'aucun resto n'a ete trouvé
@@ -72,72 +59,42 @@ const PropositionResto = ({route}) => {
           })
           .catch(error => {
             console.log(error);
-          });
-        
+        });
     }
 
-
-    const DATA = [
-        {
-            id: 0,
-            name: 'Les Passionnés',
-            image: restoImg
-        },
-        {
-            id: 1,
-            name: 'McDonalds',
-            image: McDoImg
-        },
-        {
-            id: 2,
-            name: 'Subways',
-            image: subImg
-        }
-    ];
-
-
-    //Tommy's fetch attempt
-    const getDetails = async() => {
-        //fetch("https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=restaurant&inputtype=textquery&fields=name,photos&locationbias=circle:2000@45.643894, -73.843219&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs").then(res => res.json()).then(resp => DATA = resp);
-        //const rep = await fetch("https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=45.643894, -73.843219&radius=500&type=restaurant&key=AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs");
-        // const res = await rep.json();
-        // setDetails(res);
-        //console.log("DETAILS GET");
-        //console.log(details);
+    function getPlaceDetails(placeID){
+        //Pour get plusieurs photos, à voir dans un futur raproché
     }
-
-
-    //fonction de vote
+    function afficherProchainResto(){
+        if(currViewedPlaceId < placesDetails.length - 1)
+            currViewedPlaceId++;
+        else
+            console.log("vote termine");
+    }
     function voterOui(){
-        var id = affichage.id + 1;
-        setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
+        afficherProchainResto()
+        console.log(placesDetails[currViewedPlaceId].name);
+        //var id = affichage.id + 1;
+        //setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
         //compteur = compteur + 1;
     }
     function voterNon(){
-        var id = affichage.id + 1;
-        setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
+        afficherProchainResto()
+         console.log(placesDetails[currViewedPlaceId].name);
+        //var id = affichage.id + 1;
+        //setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
         //compteur = compteur + 1;
-
     }
 
-    
-    function setState(){
-        if(affichage.length == 0){
-            setAffichage({id: DATA[0].id, name: DATA[0].name, image: DATA[0].image});
-            //setAffichage({name: details[0].name, image: details[0].icon});
-        }
-    }
-
-
-    if(!detailsDone){
+    if(!detailsLoaded){
         fetchNearestPlacesFromGoogle();
-        setDetailsDone(true);
+        setDetailsLoaded(true);
     }
+    //<Image style={styles.imgResto} source={placesDetails[currViewedPlaceId].gallery[0]}/>
+    //<Text style={styles.nomResto}>{placesDetails[currViewedPlaceId].name}</Text>
 
     return (
         <View style={styles.propoContainer}>
-            <Image style={styles.imgResto} source={affichage.image}/>
-            <Text style={styles.nomResto}>{affichage.name}</Text>
             <View style={styles.voteContainer}>
                 <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
                     <Ionicons name="md-close" size={75} color="red"/>

@@ -12,7 +12,8 @@ export default {
     },
     googleMapsAPI:
     { 
-        key: 'AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs'
+        key: 'AIzaSyCzrs5G1Aw5jLQ_Oeafyg3G6T68VNT01Rs',
+        googlePicBaseUrl: 'https://maps.googleapis.com/maps/api/place/photo?'
     }
 };
 
