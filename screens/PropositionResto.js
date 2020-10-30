@@ -6,18 +6,17 @@ import ApiKeys from '../ApiKeys';
 
 
 const PropositionResto = ({route}) => {
-    let currViewedPlaceId = 0;
-    const [placesDetails, setPlacesDetails] = useState([])
+    const [currViewedPlaceId, setcurrViewedPlaceId] = useState(0);
+    const [placesDetails, setPlacesDetails] = useState([]);
     const [detailsLoaded, setDetailsLoaded] = useState(false);
 
     const fetchNearestPlacesFromGoogle = () => {
         const latitude = 45.643894; // you can update it with user's latitude & Longitude
         const longitude = -73.843219;
         let radMetter = 5 * 100; // Search withing 2 KM radius
-    
-        const photoMaxWidth = 400;
+        const photoMaxWidth = 712;
+        const photoMaxHeight = 1024;
         const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
-        var places = []; // This Array WIll contain locations received from google
         fetch(url)
             .then(res => {
                 return res.json()
@@ -26,6 +25,7 @@ const PropositionResto = ({route}) => {
             if(res.status !== "ZERO_RESULTS")
             {
                 var placesId = 0;
+                var places = []; // This Array WIll contain locations received from google
                 for(let googlePlace of res.results) {
                     var place = {}
                     var lat = googlePlace.geometry.location.lat;
@@ -38,7 +38,7 @@ const PropositionResto = ({route}) => {
                     var gallery = []
                     if (googlePlace.photos) {
                         for(let photo of googlePlace.photos) {
-                            var photoUrl = ApiKeys.googleMapsAPI.googlePicBaseUrl + 'photoreference=' + photo.photo_reference + '&key=' + ApiKeys.googleMapsAPI.key + '&maxwidth=' + photoMaxWidth;
+                            var photoUrl = ApiKeys.googleMapsAPI.googlePicBaseUrl + 'photoreference=' + photo.photo_reference + '&key=' + ApiKeys.googleMapsAPI.key + '&maxwidth=' + photoMaxWidth + '&maxheight=' + photoMaxHeight;
                             gallery.push(photoUrl);
                         }
                     }
@@ -67,47 +67,55 @@ const PropositionResto = ({route}) => {
     }
     function afficherProchainResto(){
         if(currViewedPlaceId < placesDetails.length - 1)
-            currViewedPlaceId++;
-        else
+            setcurrViewedPlaceId(currViewedPlaceId + 1);
+        else{
             console.log("vote termine");
+        }
     }
     function voterOui(){
         afficherProchainResto()
-        console.log(placesDetails[currViewedPlaceId].name);
-        //var id = affichage.id + 1;
-        //setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
-        //compteur = compteur + 1;
     }
     function voterNon(){
         afficherProchainResto()
-         console.log(placesDetails[currViewedPlaceId].name);
-        //var id = affichage.id + 1;
-        //setAffichage({id: DATA[id].id, name: DATA[id].name, image: DATA[id].image});
-        //compteur = compteur + 1;
+    }
+    function voterSuper(){
+        afficherProchainResto()
     }
 
     if(!detailsLoaded){
         fetchNearestPlacesFromGoogle();
         setDetailsLoaded(true);
     }
-    //<Image style={styles.imgResto} source={placesDetails[currViewedPlaceId].gallery[0]}/>
-    //<Text style={styles.nomResto}>{placesDetails[currViewedPlaceId].name}</Text>
 
-    return (
+    function RenderPage(){
+        return (
         <View style={styles.propoContainer}>
-            <View style={styles.voteContainer}>
-                <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
-                    <Ionicons name="md-close" size={75} color="red"/>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
-                    <Ionicons name="ios-restaurant" size={75} color="blue"/>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonVote} onPress={() => voterOui()}>
-                    <Ionicons name="md-checkmark" size={75} color="green"/>
-                </TouchableOpacity>
+            <Image style={styles.imgResto} source={{uri: placesDetails[currViewedPlaceId].gallery[0]}}/>
+            <Text style={styles.nomResto}>{placesDetails[currViewedPlaceId].name}</Text>
+        <View style={styles.voteContainer}>
+            <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
+                <Ionicons name="md-close" size={75} color="red"/>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
+                <Ionicons name="ios-restaurant" size={75} color="blue"/>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonVote} onPress={() => voterOui()}>
+                <Ionicons name="md-checkmark" size={75} color="green"/>
+            </TouchableOpacity>
             </View>
         </View>
-    );
+        )
+    }
+
+    function LoadingScreen(){
+        return( 
+            <View style={styles.voteContainer}>
+                <Text>Loading...</Text>
+            </View>
+        );
+    }
+
+    return placesDetails.length ? RenderPage() : LoadingScreen()
 }
 
 export default PropositionResto;
