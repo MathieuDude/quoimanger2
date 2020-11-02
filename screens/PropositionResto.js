@@ -1,66 +1,47 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import { Text, View, TouchableOpacity, Image, Alert } from 'react-native';
 import styles from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 import ApiKeys from '../ApiKeys';
+const dbh = firebase.firestore();
 
+import * as firebase from 'firebase';
+
+if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
 const PropositionResto = ({route}) => {
     const [currViewedPlaceId, setcurrViewedPlaceId] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+    const [detailsLoaded, setDetailsLoaded] = useState(true);
     const [placesDetails, setPlacesDetails] = useState([]);
-    const [detailsLoaded, setDetailsLoaded] = useState(false);
+    //TODO: FIX THE DUPLICATE LOADING STATES
 
-    const fetchNearestPlacesFromGoogle = () => {
-        const latitude = 45.643894; // you can update it with user's latitude & Longitude
-        const longitude = -73.843219;
-        let radMetter = 5 * 100; // Search withing 2 KM radius
-        const photoMaxWidth = 712;
-        const photoMaxHeight = 1024;
-        const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
-        fetch(url)
-            .then(res => {
-                return res.json()
+    var salonID = 626220556345361300;
+
+    var restoData = [
+
+    ];
+
+    function getRestoData()
+    {
+        dbh.collection("lobbies").where("salonId", "==", salonID)
+            .get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    setPlacesDetails(doc.get('restoData'));
+                    
+                });
+                setDetailsLoaded(false);
+                setIsLoading(false);
+                
             })
-            .then(res => {
-            if(res.status !== "ZERO_RESULTS")
-            {
-                var placesId = 0;
-                var places = []; // This Array WIll contain locations received from google
-                for(let googlePlace of res.results) {
-                    var place = {}
-                    var lat = googlePlace.geometry.location.lat;
-                    var lng = googlePlace.geometry.location.lng;
-                    var coordinate = {
-                        latitude: lat,
-                        longitude: lng,
-                    }
-        
-                    var gallery = []
-                    if (googlePlace.photos) {
-                        for(let photo of googlePlace.photos) {
-                            var photoUrl = ApiKeys.googleMapsAPI.googlePicBaseUrl + 'photoreference=' + photo.photo_reference + '&key=' + ApiKeys.googleMapsAPI.key + '&maxwidth=' + photoMaxWidth + '&maxheight=' + photoMaxHeight;
-                            gallery.push(photoUrl);
-                        }
-                    }
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
 
-                    place['id'] = placesId++;
-                    place['coordinate'] = coordinate;
-                    place['googlePlaceId'] = googlePlace.place_id;
-                    place['name'] = googlePlace.name;
-                    place['gallery'] = gallery;
-                    places.push(place);
-                }
-                setPlacesDetails(places);
-            }
-            else{
-                //TODO: avertir l'usager qu'aucun resto n'a ete trouvé
-                console.log("Zero resultat");
-            }
-          })
-          .catch(error => {
-            console.log(error);
-        });
     }
+
+    
 
     function getPlaceDetails(placeID){
         //Pour get plusieurs photos, à voir dans un futur raproché
@@ -73,17 +54,21 @@ const PropositionResto = ({route}) => {
         }
     }
     function voterOui(){
-        afficherProchainResto()
+        afficherProchainResto();
     }
     function voterNon(){
-        afficherProchainResto()
+        afficherProchainResto();
     }
     function voterSuper(){
-        afficherProchainResto()
+        afficherProchainResto();
+    }
+
+    if(isLoading == true){
+        getRestoData();
     }
 
     if(!detailsLoaded){
-        fetchNearestPlacesFromGoogle();
+        
         setDetailsLoaded(true);
     }
 
