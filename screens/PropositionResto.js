@@ -15,7 +15,8 @@ const PropositionResto = ({route}) => {
     const [detailsLoaded, setDetailsLoaded] = useState(true);
     const [placesDetails, setPlacesDetails] = useState([]);
     //TODO: FIX THE DUPLICATE LOADING STATES
-
+    //TODO: set SalonID dynamically depending on the route
+    
     var salonID = 626220556345361300;
 
     var restoData = [
