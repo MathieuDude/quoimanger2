@@ -13,6 +13,14 @@ const CreationSalon = ({route, navigation}) => {
   const [motDePasse, setmotDePasse] = useState("");
   const [placesDetails, setPlacesDetails] = useState([]);
 
+  function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  var tempSalonId = getRandomInt(0, 999999999999999999);
+  var salonIdString = tempSalonId.toString();
 
   const fetchNearestPlacesFromGoogle = () => {
     const latitude = 45.643894; // you can update it with user's latitude & Longitude
@@ -22,6 +30,7 @@ const CreationSalon = ({route, navigation}) => {
     const photoMaxHeight = 1024;
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
     
+
     fetch(url)
         .then(res => {
             return res.json()
@@ -71,7 +80,7 @@ const CreationSalon = ({route, navigation}) => {
     console.log(nomSalon);
     console.log(motDePasse);
 
-    dbh.collection("lobbies").add({
+    dbh.collection("lobbies").doc(salonIdString).set({
       salonId: tempSalonId,
       title: nomSalon,
       password: motDePasse,
@@ -85,17 +94,9 @@ const CreationSalon = ({route, navigation}) => {
     });
   }
 
-  function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-
   
 
   fetchNearestPlacesFromGoogle();
-  var tempSalonId = getRandomInt(0, 999999999999999999);
 
   
 
