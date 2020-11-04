@@ -10,18 +10,21 @@ import * as firebase from 'firebase';
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
 const PropositionResto = ({route}) => {
+
+    const {salonID} = route.params;
+
     const [currViewedPlaceId, setcurrViewedPlaceId] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [detailsLoaded, setDetailsLoaded] = useState(true);
     const [placesDetails, setPlacesDetails] = useState([]);
+
+    const [vote, setVote] = useState([]);
     //TODO: FIX THE DUPLICATE LOADING STATES
-    //TODO: set SalonID dynamically depending on the route
-    
-    var salonID = 626220556345361300;
 
     var restoData = [
 
     ];
+
 
     function getRestoData()
     {
@@ -56,12 +59,37 @@ const PropositionResto = ({route}) => {
     }
     function voterOui(){
         afficherProchainResto();
+
+        countVote(1);
+
+        console.log(vote);
+
     }
     function voterNon(){
         afficherProchainResto();
+
+        console.log(vote);
     }
     function voterSuper(){
         afficherProchainResto();
+
+        console.log(vote);
+    }
+    function countVote(voteVal)
+    {
+        if(vote.length < 1)
+        {
+            //TODO: FINISH VOTE
+            // const prevVote = new Array(vote);
+            // prevVote.push({ currViewedPlaceId: 1 });
+            setVote([voteVal]);
+        }
+        else{
+            setVote({...vote, voteVal });
+        }
+        
+        
+
     }
 
     if(isLoading == true){

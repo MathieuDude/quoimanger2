@@ -21,6 +21,7 @@ const CreationSalon = ({route, navigation}) => {
     const photoMaxWidth = 712;
     const photoMaxHeight = 1024;
     const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
+    
     fetch(url)
         .then(res => {
             return res.json()

@@ -4,6 +4,7 @@ import { Alert,
     StyleSheet,
     Text,
     TouchableHighlight,
+    TouchableOpacity,
     View, Button, TextInput } from 'react-native';
 import styles from '../styles';
 
@@ -23,6 +24,11 @@ const Salon = ({route, navigation}) => {
             Alert.alert("Mot de passe incorrecte.");
         }
         else{ setModalVisible(!modalVisible); }
+
+        if(!enteredName)
+        {
+            setEnteredName("Usager" + Math.floor(Math.random() * 10000));
+        }
     }
 
     
@@ -45,7 +51,7 @@ const Salon = ({route, navigation}) => {
                         onChangeText={(enteredPass) => setEnteredPass(enteredPass)}
                         value={enteredPass}
                         />
-                        <Text style={styles.formLabel}>Nom d'usager:</Text>
+                        <Text style={styles.formLabel}>Nom d'usager (optionnel):</Text>
                         <TextInput
                         style={styles.txtInput}
                         onChangeText={(enteredName) => setEnteredName(enteredName)}
@@ -68,6 +74,11 @@ const Salon = ({route, navigation}) => {
             <Text>titre du salon: {title}</Text>
             <Text>mdp du salon: {password}</Text>
             <Text>Nom d'usager: {enteredName}</Text>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+                navigation.navigate('PropositionResto', {salonID: salonId})
+            }}>
+                <Text style={styles.buttonBlue}>Voir les restos</Text>
+            </TouchableOpacity>
 
         </View>
     );
