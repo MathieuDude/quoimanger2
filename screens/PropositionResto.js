@@ -18,15 +18,14 @@ const PropositionResto = ({route}) => {
     const [isLoading, setIsLoading] = useState(true);
     const [detailsLoaded, setDetailsLoaded] = useState(true);
     const [placesDetails, setPlacesDetails] = useState([]);
-
+    
     const [vote, setVote] = useState([]);
     //TODO: FIX THE DUPLICATE LOADING STATES
-
+    const salonActuel = dbh.collection("lobbies").doc(salonID.toString());
     var restoData = [
 
     ];
-
-
+    var voteId = 0;
     function getRestoData()
     {
         dbh.collection("lobbies").where("salonId", "==", salonID)
@@ -34,7 +33,6 @@ const PropositionResto = ({route}) => {
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     setPlacesDetails(doc.get('restoData'));
-                    
                 });
                 setDetailsLoaded(false);
                 setIsLoading(false);
@@ -60,16 +58,15 @@ const PropositionResto = ({route}) => {
         }
     }
     function voterOui(){
-        //ToastAndroid.show("vote OUI + 1", ToastAndroid.SHORT);
         
-        var salon = dbh.collection("lobbies").doc("test1");
-        salon.set({
-            votes: {1: 0, 2: 0}
+        voteId = "votes."+currViewedPlaceId;
+        salonActuel.update({
+            [voteId]:firebase.firestore.FieldValue.increment(1)
         })
-        .then(function() {
+        .then(function(){
             ToastAndroid.show("vote OUI + 1", ToastAndroid.SHORT);
         });
-        
+
         afficherProchainResto();
 
         //countVote(1);
@@ -78,22 +75,20 @@ const PropositionResto = ({route}) => {
 
     }
     function voterNon(){
-        //ToastAndroid.show("vote NON + 1", ToastAndroid.SHORT);
-
-        var salon = dbh.collection("lobbies").doc("test1");
-        salon.update({
-            "votes.1":firebase.firestore.FieldValue.increment(1)
-        })
-        .then(function() {
-            ToastAndroid.show("vote NON + 1", ToastAndroid.SHORT);
-        });
-
+        ToastAndroid.show("vote NON", ToastAndroid.SHORT);
+        
         afficherProchainResto();
 
         console.log(vote);
     }
     function voterSuper(){
-        ToastAndroid.show("vote SUPER + 1", ToastAndroid.SHORT);
+        voteId = "votes."+currViewedPlaceId;
+        salonActuel.update({
+            [voteId]:firebase.firestore.FieldValue.increment(2)
+        })
+        .then(function() {
+            ToastAndroid.show("vote SUPER + 1", ToastAndroid.SHORT);
+        })
         afficherProchainResto();
 
         console.log(vote);
