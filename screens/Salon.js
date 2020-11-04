@@ -12,6 +12,7 @@ const Salon = ({route, navigation}) => {
     const {salonId} = route.params;
     const {title} = route.params;
     const {password} = route.params;
+    
     const [modalVisible, setModalVisible] = useState(true);
     const [enteredPass, setEnteredPass] = useState("");
     const [enteredName, setEnteredName] = useState("");

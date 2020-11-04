@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#FFBF00',
         textAlign: "center",
-        padding: 10,
+        padding: 0,
         fontWeight: "bold",
         fontSize: 18
     },
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     txtInput: {
         marginBottom: 20,
         padding: 6,
-        width: "90%",
+        width: 250,
         fontSize: 24,
         height: 45,
         borderColor: "#C6C6C6",

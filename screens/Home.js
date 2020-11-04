@@ -59,11 +59,6 @@ const Home = ({navigation}) => {
                 }
             />
 
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('PropositionResto')}>
-                <Text style={styles.buttonBlue}>
-                    Test Resto
-                </Text>
-            </TouchableOpacity>
             <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('CreationSalon')}>
                 <Text style={styles.buttonBlue}>
                     Nouveau Salon
