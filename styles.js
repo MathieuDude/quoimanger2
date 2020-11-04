@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     txtInput: {
         marginBottom: 20,
         padding: 6,
-        width: "90%",
+        width: 250,
         fontSize: 24,
         height: 45,
         borderColor: "#C6C6C6",

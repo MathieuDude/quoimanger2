@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, Image, Alert } from 'react-native';
+import { Text, View, TouchableOpacity, Image, Alert, ToastAndroid } from 'react-native';
 import styles from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 import ApiKeys from '../ApiKeys';
+
 const dbh = firebase.firestore();
 
 import * as firebase from 'firebase';
@@ -55,22 +56,44 @@ const PropositionResto = ({route}) => {
             setcurrViewedPlaceId(currViewedPlaceId + 1);
         else{
             console.log("vote termine");
+            ToastAndroid.show("vote ternine", ToastAndroid.SHORT);
         }
     }
     function voterOui(){
+        //ToastAndroid.show("vote OUI + 1", ToastAndroid.SHORT);
+        
+        var salon = dbh.collection("lobbies").doc("test1");
+        salon.set({
+            votes: {1: 0, 2: 0}
+        })
+        .then(function() {
+            ToastAndroid.show("vote OUI + 1", ToastAndroid.SHORT);
+        });
+        
         afficherProchainResto();
 
-        countVote(1);
+        //countVote(1);
 
         console.log(vote);
 
     }
     function voterNon(){
+        //ToastAndroid.show("vote NON + 1", ToastAndroid.SHORT);
+
+        var salon = dbh.collection("lobbies").doc("test1");
+        salon.update({
+            "votes.1":firebase.firestore.FieldValue.increment(1)
+        })
+        .then(function() {
+            ToastAndroid.show("vote NON + 1", ToastAndroid.SHORT);
+        });
+
         afficherProchainResto();
 
         console.log(vote);
     }
     function voterSuper(){
+        ToastAndroid.show("vote SUPER + 1", ToastAndroid.SHORT);
         afficherProchainResto();
 
         console.log(vote);
@@ -97,7 +120,6 @@ const PropositionResto = ({route}) => {
     }
 
     if(!detailsLoaded){
-        
         setDetailsLoaded(true);
     }
 
