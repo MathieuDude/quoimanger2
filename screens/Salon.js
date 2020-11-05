@@ -30,6 +30,7 @@ const Salon = ({route, navigation}) => {
         {
             setEnteredName("Usager" + Math.floor(Math.random() * 10000));
         }
+        
     }
 
     
