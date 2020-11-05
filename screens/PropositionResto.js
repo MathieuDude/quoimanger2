@@ -81,6 +81,7 @@ const PropositionResto = ({route, navigation}) => {
     }
 
     function voterNon(){
+        checkVotes();
         afficherProchainResto();
     }
 
