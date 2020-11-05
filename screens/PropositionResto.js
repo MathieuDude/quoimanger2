@@ -66,22 +66,34 @@ const PropositionResto = ({route, navigation}) => {
         .then(function(){
             //ToastAndroid.show("vote OUI + 1", ToastAndroid.SHORT);
         });
+
+
         salonActuel.get().then(function(doc){   //get les votes du lobby
-            if(doc.exists){
-                setVotes(doc.get("votes"));
+            if(doc.exists)
+            {
+                // setVotes(doc.get("votes")).then(function(){
+                    
+                //     console.log(Object.entries(votes));
+
+                //     for(const [key, value] of Object.entries(votes)){
+
+                //         console.log(`${key}: ${value}`);
+                        
+                //         if(value == 2)
+                //         { //SA CA MARCHE POOOOO
+    
+                //             ToastAndroid.show("MATCH", ToastAndroid.LONG);
+    
+                //             navigation.navigate('RestoFinal', {resto: placesDetails[key]});
+                //         }
+                //     }
+                // });                
             }
             else{
                 console.log("ERREUR VOTES");
             }
         });
-        for(const [key, value] of Object.entries(votes)){
-            console.log(`${key}: ${value}`);
-            
-            if(value == 2){ //SA CA MARCHE POOOOO
-                ToastAndroid.show("MATCH", ToastAndroid.SHORT);
-                navigation.navigate('RestoFinal', {resto: placesDetails[key]});
-            }
-        }
+        
 
         afficherProchainResto();
     }

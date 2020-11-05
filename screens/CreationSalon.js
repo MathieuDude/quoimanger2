@@ -42,12 +42,12 @@ const CreationSalon = ({route, navigation}) => {
             var places = []; // This Array WIll contain locations received from google
             for(let googlePlace of res.results) {
                 var place = {}
-                var lat = googlePlace.geometry.location.lat;
-                var lng = googlePlace.geometry.location.lng;
-                var coordinate = {
-                    latitude: lat,
-                    longitude: lng,
-                }
+                // var lat = googlePlace.geometry.location.lat;
+                // var lng = googlePlace.geometry.location.lng;
+                // var coordinate = {
+                //     latitude: lat,
+                //     longitude: lng,
+                // }
     
                 var gallery = []
                 if (googlePlace.photos) {
@@ -58,10 +58,15 @@ const CreationSalon = ({route, navigation}) => {
                 }
 
                 place['id'] = placesId++;
-                place['coordinate'] = coordinate;
+                // place['coordinate'] = coordinate;
                 place['googlePlaceId'] = googlePlace.place_id;
                 place['name'] = googlePlace.name;
                 place['gallery'] = gallery;
+                place['addr'] = googlePlace.formatted_address;
+                place['phone'] = googlePlace.formatted_phone_number;
+                place['rating'] = googlePlace.rating;
+                place['website_url'] = googlePlace.formatted_phone_number;
+
                 places.push(place);
             }
             setPlacesDetails(places);
