@@ -58,16 +58,6 @@ const CreationSalon = ({route, navigation}) => {
                 }
 
                 place['id'] = placesId++;
-<<<<<<< HEAD
-                // place['coordinate'] = coordinate;
-                place['googlePlaceId'] = googlePlace.place_id;
-                place['name'] = googlePlace.name;
-                place['gallery'] = gallery;
-                place['addr'] = googlePlace.formatted_address;
-                place['phone'] = googlePlace.formatted_phone_number;
-                place['rating'] = googlePlace.rating;
-                place['website_url'] = googlePlace.formatted_phone_number;
-=======
                 place['googlePlaceId'] = googlePlace.place_id;
                 place['name'] = googlePlace.name;
                 place['gallery'] = gallery;
@@ -75,7 +65,6 @@ const CreationSalon = ({route, navigation}) => {
                 place['rating'] = googlePlace.rating;
                 //place['phone'] = googlePlace.formatted_phone_number;
                 //place['website_url'] = googlePlace.formatted_phone_number;
->>>>>>> main
 
                 places.push(place);
             }
