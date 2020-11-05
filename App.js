@@ -11,6 +11,7 @@ import Home from './screens/Home';
 import Salon from './screens/Salon';
 import CreationSalon from './screens/CreationSalon';
 import PropositionResto from './screens/PropositionResto';
+import RestoFinal from './screens/RestoFinal';
 import styles from './styles';
 
 import ApiKeys from './ApiKeys';
@@ -59,6 +60,11 @@ export default class App extends React.Component {
             name="CreationSalon" 
             component={CreationSalon}
             options={{title: "Création de salon"}}
+          />
+          <Stack.Screen
+            name="RestoFinal"
+            component={RestoFinal}
+            options={{}}
           />
         </Stack.Navigator>
       </NavigationContainer>

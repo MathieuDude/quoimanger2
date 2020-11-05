@@ -10,7 +10,7 @@ import * as firebase from 'firebase';
 
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
-const PropositionResto = ({route}) => {
+const PropositionResto = ({route, navigation}) => {
 
     const {salonID} = route.params;
 
@@ -22,6 +22,7 @@ const PropositionResto = ({route}) => {
     const [vote, setVote] = useState([]);
     //TODO: FIX THE DUPLICATE LOADING STATES
     const salonActuel = dbh.collection("lobbies").doc(salonID.toString());
+    const [votes, setVotes] = useState([]);
     var restoData = [
 
     ];
@@ -58,30 +59,38 @@ const PropositionResto = ({route}) => {
         }
     }
     function voterOui(){
-        
         voteId = "votes."+currViewedPlaceId;
         salonActuel.update({
             [voteId]:firebase.firestore.FieldValue.increment(1)
         })
         .then(function(){
-            ToastAndroid.show("vote OUI + 1", ToastAndroid.SHORT);
+            //ToastAndroid.show("vote OUI + 1", ToastAndroid.SHORT);
         });
+        salonActuel.get().then(function(doc){   //get les votes du lobby
+            if(doc.exists){
+                setVotes(doc.get("votes"));
+            }
+            else{
+                console.log("ERREUR VOTES");
+            }
+        });
+        for(const [key, value] of Object.entries(votes)){
+            console.log(`${key}: ${value}`);
+            
+            if(value == 2){ //SA CA MARCHE POOOOO
+                ToastAndroid.show("MATCH", ToastAndroid.SHORT);
+                navigation.navigate('RestoFinal', {resto: placesDetails[key]});
+            }
+        }
 
         afficherProchainResto();
-
-        //countVote(1);
-
-        console.log(vote);
-
     }
     function voterNon(){
         ToastAndroid.show("vote NON", ToastAndroid.SHORT);
         
         afficherProchainResto();
-
-        console.log(vote);
     }
-    function voterSuper(){
+    /*function voterSuper(){
         voteId = "votes."+currViewedPlaceId;
         salonActuel.update({
             [voteId]:firebase.firestore.FieldValue.increment(2)
@@ -90,25 +99,7 @@ const PropositionResto = ({route}) => {
             ToastAndroid.show("vote SUPER + 1", ToastAndroid.SHORT);
         })
         afficherProchainResto();
-
-        console.log(vote);
-    }
-    function countVote(voteVal)
-    {
-        if(vote.length < 1)
-        {
-            //TODO: FINISH VOTE
-            // const prevVote = new Array(vote);
-            // prevVote.push({ currViewedPlaceId: 1 });
-            setVote([voteVal]);
-        }
-        else{
-            setVote({...vote, voteVal });
-        }
-        
-        
-
-    }
+    }*/
 
     if(isLoading == true){
         getRestoData();
@@ -127,9 +118,9 @@ const PropositionResto = ({route}) => {
             <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
                 <Ionicons name="md-close" size={75} color="red"/>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
+            {/*<TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
                 <Ionicons name="ios-restaurant" size={75} color="blue"/>
-            </TouchableOpacity>
+            </TouchableOpacity>*/}
             <TouchableOpacity style={styles.buttonVote} onPress={() => voterOui()}>
                 <Ionicons name="md-checkmark" size={75} color="green"/>
             </TouchableOpacity>
