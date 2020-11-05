@@ -54,7 +54,7 @@ export default class App extends React.Component {
           <Stack.Screen
             name="PropositionResto" 
             component={PropositionResto}
-            options={{}}
+            options={{title: "Vote"}}
           />
           <Stack.Screen
             name="CreationSalon" 
@@ -64,7 +64,13 @@ export default class App extends React.Component {
           <Stack.Screen
             name="RestoFinal"
             component={RestoFinal}
-            options={{}}
+            options={
+              ({route}) => ({
+                restoData: route.params.restoData,
+                title: "C'est un match!",
+                headerLeft: null
+              })
+            }
           />
         </Stack.Navigator>
       </NavigationContainer>

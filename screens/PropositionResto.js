@@ -13,20 +13,14 @@ if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 const PropositionResto = ({route, navigation}) => {
 
     const {salonID} = route.params;
-
     const [currViewedPlaceId, setcurrViewedPlaceId] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
-    const [detailsLoaded, setDetailsLoaded] = useState(true);
     const [placesDetails, setPlacesDetails] = useState([]);
-    
-    const [vote, setVote] = useState([]);
-    //TODO: FIX THE DUPLICATE LOADING STATES
+    //TODO: Update le nombre de participants avec la liste
+    const [nbParticipants, setNbParticipants] = useState(2);
     const salonActuel = dbh.collection("lobbies").doc(salonID.toString());
-    const [votes, setVotes] = useState([]);
-    var restoData = [
-
-    ];
     var voteId = 0;
+
     function getRestoData()
     {
         dbh.collection("lobbies").where("salonId", "==", salonID)
@@ -35,7 +29,6 @@ const PropositionResto = ({route, navigation}) => {
                 querySnapshot.forEach(function(doc) {
                     setPlacesDetails(doc.get('restoData'));
                 });
-                setDetailsLoaded(false);
                 setIsLoading(false);
                 
             })
@@ -46,96 +39,73 @@ const PropositionResto = ({route, navigation}) => {
     }
 
     
-
     function getPlaceDetails(placeID){
         //Pour get plusieurs photos, à voir dans un futur raproché
     }
+
     function afficherProchainResto(){
         if(currViewedPlaceId < placesDetails.length - 1)
             setcurrViewedPlaceId(currViewedPlaceId + 1);
         else{
-            console.log("vote termine");
-            ToastAndroid.show("vote ternine", ToastAndroid.SHORT);
+            ToastAndroid.show("Vote Terminé, veuillez patientez...", ToastAndroid.SHORT);
         }
     }
+
+    function checkVotes(){
+        salonActuel.get().then(function(doc){
+            if(doc.exists)
+            {
+                var data = doc.data();
+                for(var [key, nbVote] of Object.entries(data.votes)){
+                    if(nbVote >= nbParticipants) {
+                        var id = parseInt(key);
+                        navigation.navigate("RestoFinal", {restoData: placesDetails[id]});
+                    }
+                }   
+            }
+            else {
+                ToastAndroid.show("Erreur document inexistant")
+            }
+        }).catch(function(error) {
+            ToastAndroid.show("Erreur inatendue")
+        });
+    }
+
     function voterOui(){
-        voteId = "votes."+currViewedPlaceId;
+        voteId = "votes."+ currViewedPlaceId;
         salonActuel.update({
             [voteId]:firebase.firestore.FieldValue.increment(1)
         })
-        .then(function(){
-            //ToastAndroid.show("vote OUI + 1", ToastAndroid.SHORT);
-        });
-
-
-        salonActuel.get().then(function(doc){   //get les votes du lobby
-            if(doc.exists)
-            {
-                // setVotes(doc.get("votes")).then(function(){
-                    
-                //     console.log(Object.entries(votes));
-
-                //     for(const [key, value] of Object.entries(votes)){
-
-                //         console.log(`${key}: ${value}`);
-                        
-                //         if(value == 2)
-                //         { //SA CA MARCHE POOOOO
-    
-                //             ToastAndroid.show("MATCH", ToastAndroid.LONG);
-    
-                //             navigation.navigate('RestoFinal', {resto: placesDetails[key]});
-                //         }
-                //     }
-                // });                
-            }
-            else{
-                console.log("ERREUR VOTES");
-            }
-        });
+        .then(checkVotes());
         
-
         afficherProchainResto();
     }
+
     function voterNon(){
-        ToastAndroid.show("vote NON", ToastAndroid.SHORT);
-        
+        checkVotes();
         afficherProchainResto();
     }
-    /*function voterSuper(){
-        voteId = "votes."+currViewedPlaceId;
-        salonActuel.update({
-            [voteId]:firebase.firestore.FieldValue.increment(2)
-        })
-        .then(function() {
-            ToastAndroid.show("vote SUPER + 1", ToastAndroid.SHORT);
-        })
-        afficherProchainResto();
-    }*/
 
-    if(isLoading == true){
+    if(isLoading){
         getRestoData();
-    }
-
-    if(!detailsLoaded){
-        setDetailsLoaded(true);
+        setIsLoading(false);
     }
 
     function RenderPage(){
         return (
-        <View style={styles.propoContainer}>
+        <View style={styles.restoPropositionContainer}>
             <Image style={styles.imgResto} source={{uri: placesDetails[currViewedPlaceId].gallery[0]}}/>
             <Text style={styles.nomResto}>{placesDetails[currViewedPlaceId].name}</Text>
-        <View style={styles.voteContainer}>
-            <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
-                <Ionicons name="md-close" size={75} color="red"/>
-            </TouchableOpacity>
-            {/*<TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
-                <Ionicons name="ios-restaurant" size={75} color="blue"/>
-            </TouchableOpacity>*/}
-            <TouchableOpacity style={styles.buttonVote} onPress={() => voterOui()}>
-                <Ionicons name="md-checkmark" size={75} color="green"/>
-            </TouchableOpacity>
+            <View style={styles.voteContainer}>
+                <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
+                    <Ionicons name="md-close" size={90} color="red"/>
+                </TouchableOpacity>
+                {/*<TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
+                    <Ionicons name="ios-restaurant" size={75} color="blue"/>
+                </TouchableOpacity>*/}
+                <TouchableOpacity style={styles.buttonVote} onPress={() => voterOui()}>
+                    <Ionicons name="md-checkmark" size={90} color="green"/>
+                </TouchableOpacity>
             </View>
         </View>
         )
@@ -143,8 +113,8 @@ const PropositionResto = ({route, navigation}) => {
 
     function LoadingScreen(){
         return( 
-            <View style={styles.voteContainer}>
-                <Text>Loading...</Text>
+            <View style={styles.restoPropositionContainer}>
+                <Text style={{fontSize: 42}}>Loading...</Text>
             </View>
         );
     }

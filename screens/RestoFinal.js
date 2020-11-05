@@ -1,32 +1,21 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, Image, Alert, ToastAndroid } from 'react-native';
 import styles from '../styles';
-import { Ionicons } from '@expo/vector-icons';
-import ApiKeys from '../ApiKeys';
 
-const RestoFinal = ({route}) => {
-    const {resto} = route.params;
+const RestoFinal = ({route, navigation}) => {
+    const {restoData} = route.params;
 
-    function RenderPage(){
         return (
-        <View style={styles.propoContainer}>
-            <Image style={styles.imgResto} source={{uri: resto[0].gallery[0]}}/>
-            <Text style={styles.nomResto}>{resto[0].name}</Text>
-            <Text style={styles.nomResto}> Numero de telephone </Text>
-            <Text style={styles.nomResto}> adresse </Text>
-            <Text style={styles.nomResto}> site web </Text>
+        <View style={styles.restoPropositionContainer}>
+            <Image style={styles.imgResto} source={{uri: restoData.gallery[0]}}/>
+            <Text style={styles.nomResto}>{restoData.name}</Text>
+            <Text style={styles.adresseResto}>{restoData.address}</Text>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+                navigation.navigate('Home')}}>
+                <Text style={styles.buttonBlue}>Retourner à l'acceuil</Text>
+            </TouchableOpacity>
         </View>
         )
     }
 
-    function LoadingScreen(){
-        return( 
-            <View style={styles.voteContainer}>
-                <Text>Loading...</Text>
-            </View>
-        );
-    }
-
-    return placesDetails.length ? RenderPage() : LoadingScreen()
-}
 export default RestoFinal;
