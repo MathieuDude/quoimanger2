@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         paddingTop: 10,
+        paddingBottom: 5,
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-between',
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#FFBF00',
         textAlign: "center",
-        padding: 0,
+        padding: 10,
         fontWeight: "bold",
         fontSize: 18
     },
@@ -49,24 +50,37 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         fontSize: 18
     },
+    buttonGreen: {
+        width: '100%',
+        backgroundColor: '#66DB24',
+        textAlign: "center",
+        padding: 10,
+        fontWeight: "bold",
+        fontSize: 18
+    },
+    restoPropositionContainer: {
+        flex: 1,
+        width: '100%',
+    },
     buttonVote: {
         borderWidth:1,
         borderColor:'rgba(0,0,0,0.2)',
         alignItems:'center',
-        width:75,
-        height:75,
+        width:90,
+        height:90,
         backgroundColor:'#fff',
         borderRadius:20,
         margin: 5
     },
     voteContainer: {
-        paddingTop: 10,
-        paddingBottom: 10,
-        height: 100,
-        width: '100%',
+        position: "absolute",
+        bottom: 0,
+        margin: "5%",
+        height: 90,
+        width: '90%',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        alignItems: 'flex-end'
+        alignItems: "flex-end"
     },
     imgResto: {
         width: '100%',
@@ -74,7 +88,14 @@ const styles = StyleSheet.create({
     },
     nomResto: {
         fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 28,
+        borderBottomColor: 'black',
+        borderBottomWidth: 1,
+        textAlign: 'center'
+    },
+    adresseResto: {
+        fontWeight: 'bold',
+        fontSize: 22,
         borderBottomColor: 'black',
         borderBottomWidth: 1,
         textAlign: 'center'
@@ -145,10 +166,18 @@ const styles = StyleSheet.create({
         elevation: 5
     },
     openButton: {
-        backgroundColor: "#F194FF",
-        borderRadius: 20,
-        padding: 10,
-        elevation: 2
+        backgroundColor: "#2196F3",
+        borderRadius: 10,
+        padding: 5,
+        elevation: 2,
+        width: "90%"
+    },
+    openButtonText: {
+        paddingLeft: "10%",
+        paddingRight: "10%",
+        margin: 10,
+        textAlign: 'center',
+        color: 'white',
     },
     textStyle: {
         color: "white",

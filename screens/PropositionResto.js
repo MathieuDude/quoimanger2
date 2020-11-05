@@ -47,8 +47,7 @@ const PropositionResto = ({route, navigation}) => {
         if(currViewedPlaceId < placesDetails.length - 1)
             setcurrViewedPlaceId(currViewedPlaceId + 1);
         else{
-            console.log("vote termine");
-            ToastAndroid.show("vote ternine", ToastAndroid.SHORT);
+            ToastAndroid.show("Vote Terminé, veuillez patientez...", ToastAndroid.SHORT);
         }
     }
 
@@ -65,8 +64,10 @@ const PropositionResto = ({route, navigation}) => {
                 }   
             }
             else {
-                console.log("ERREUR VOTES");
+                ToastAndroid.show("Erreur document inexistant")
             }
+        }).catch(function(error) {
+            ToastAndroid.show("Erreur inatendue")
         });
     }
 
@@ -92,19 +93,19 @@ const PropositionResto = ({route, navigation}) => {
 
     function RenderPage(){
         return (
-        <View style={styles.propoContainer}>
+        <View style={styles.restoPropositionContainer}>
             <Image style={styles.imgResto} source={{uri: placesDetails[currViewedPlaceId].gallery[0]}}/>
             <Text style={styles.nomResto}>{placesDetails[currViewedPlaceId].name}</Text>
-        <View style={styles.voteContainer}>
-            <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
-                <Ionicons name="md-close" size={75} color="red"/>
-            </TouchableOpacity>
-            {/*<TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
-                <Ionicons name="ios-restaurant" size={75} color="blue"/>
-            </TouchableOpacity>*/}
-            <TouchableOpacity style={styles.buttonVote} onPress={() => voterOui()}>
-                <Ionicons name="md-checkmark" size={75} color="green"/>
-            </TouchableOpacity>
+            <View style={styles.voteContainer}>
+                <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
+                    <Ionicons name="md-close" size={90} color="red"/>
+                </TouchableOpacity>
+                {/*<TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
+                    <Ionicons name="ios-restaurant" size={75} color="blue"/>
+                </TouchableOpacity>*/}
+                <TouchableOpacity style={styles.buttonVote} onPress={() => voterOui()}>
+                    <Ionicons name="md-checkmark" size={90} color="green"/>
+                </TouchableOpacity>
             </View>
         </View>
         )
@@ -112,8 +113,8 @@ const PropositionResto = ({route, navigation}) => {
 
     function LoadingScreen(){
         return( 
-            <View style={styles.voteContainer}>
-                <Text>Loading...</Text>
+            <View style={styles.restoPropositionContainer}>
+                <Text style={{fontSize: 42}}>Loading...</Text>
             </View>
         );
     }

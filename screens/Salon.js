@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Alert,
     Modal,
-    StyleSheet,
     Text,
     TouchableHighlight,
     TouchableOpacity,
@@ -49,23 +48,20 @@ const Salon = ({route, navigation}) => {
                     <View style={styles.modalView}>
                         <Text style={styles.formLabel}>Nom d'usager (optionnel):</Text>
                         <TextInput
-                        style={styles.txtInput}
-                        onChangeText={(enteredName) => setEnteredName(enteredName)}
-                        value={enteredName}
+                            style={styles.txtInput}
+                            onChangeText={(enteredName) => setEnteredName(enteredName)}
+                            value={enteredName}
                         />
-                        <Text style={styles.formLabel}>Mot de passe:</Text>
+                        <Text style={styles.formLabel}>Mot de passe du salon:</Text>
                         <TextInput
-                        style={styles.txtInput}
-                        onChangeText={(enteredPass) => setEnteredPass(enteredPass)}
-                        value={enteredPass}
+                            style={styles.txtInput}
+                            onChangeText={(enteredPass) => setEnteredPass(enteredPass)}
+                            value={enteredPass}
                         />
                         <TouchableHighlight
-                        style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                        onPress={() => {   
-                            checkPass(enteredPass);
-                        }}
-                        >
-                        <Text style={styles.textStyle}>Entrer!</Text>
+                            style={styles.openButton}
+                            onPress={() => { checkPass(enteredPass); }}>
+                            <Text style={styles.openButtonText}>Entrer!</Text>
                         </TouchableHighlight>
                     </View>
                 </View>
@@ -77,8 +73,7 @@ const Salon = ({route, navigation}) => {
             <Text>mdp du salon: {password}</Text>
             <Text>Nom d'usager: {enteredName}</Text>
             <TouchableOpacity style={styles.buttonContainer} onPress={() => {
-                navigation.navigate('PropositionResto', {salonID: salonId})
-            }}>
+                navigation.navigate('PropositionResto', {salonID: salonId})}}>
                 <Text style={styles.buttonBlue}>Voir les restos</Text>
             </TouchableOpacity>
 

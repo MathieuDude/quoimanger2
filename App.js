@@ -67,7 +67,8 @@ export default class App extends React.Component {
             options={
               ({route}) => ({
                 restoData: route.params.restoData,
-                title: "C'est un match!"
+                title: "C'est un match!",
+                headerLeft: null
               })
             }
           />
