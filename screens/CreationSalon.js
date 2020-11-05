@@ -85,7 +85,8 @@ const CreationSalon = ({route, navigation}) => {
       salonId: tempSalonId,
       title: nomSalon,
       password: motDePasse,
-      restoData: placesDetails
+      restoData: placesDetails,
+      votes: {0:0}
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
