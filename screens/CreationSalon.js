@@ -58,14 +58,13 @@ const CreationSalon = ({route, navigation}) => {
                 }
 
                 place['id'] = placesId++;
-                // place['coordinate'] = coordinate;
                 place['googlePlaceId'] = googlePlace.place_id;
                 place['name'] = googlePlace.name;
                 place['gallery'] = gallery;
-                place['addr'] = googlePlace.formatted_address;
-                place['phone'] = googlePlace.formatted_phone_number;
+                place['address'] = googlePlace.vicinity;
                 place['rating'] = googlePlace.rating;
-                place['website_url'] = googlePlace.formatted_phone_number;
+                //place['phone'] = googlePlace.formatted_phone_number;
+                //place['website_url'] = googlePlace.formatted_phone_number;
 
                 places.push(place);
             }
@@ -82,28 +81,19 @@ const CreationSalon = ({route, navigation}) => {
   }
 
   function ajouterSalon(){
-    console.log(nomSalon);
-    console.log(motDePasse);
-
     dbh.collection("lobbies").doc(salonIdString).set({
       salonId: tempSalonId,
       title: nomSalon,
       password: motDePasse,
       restoData: placesDetails
     })
-    .then(function(docRef) {
-      console.log("Document written with ID: ", docRef.id);
-    })
     .catch(function(error) {
       console.error("Error adding document: ", error);
     });
   }
 
-  
-
-  fetchNearestPlacesFromGoogle();
-
-  
+  if(placesDetails.length == 0)
+    fetchNearestPlacesFromGoogle();
 
   return(
       <View style={styles.formContainer}>

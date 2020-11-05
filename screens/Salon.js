@@ -47,17 +47,17 @@ const Salon = ({route, navigation}) => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.formLabel}>Mot de passe:</Text>
-                        <TextInput
-                        style={styles.txtInput}
-                        onChangeText={(enteredPass) => setEnteredPass(enteredPass)}
-                        value={enteredPass}
-                        />
                         <Text style={styles.formLabel}>Nom d'usager (optionnel):</Text>
                         <TextInput
                         style={styles.txtInput}
                         onChangeText={(enteredName) => setEnteredName(enteredName)}
                         value={enteredName}
+                        />
+                        <Text style={styles.formLabel}>Mot de passe:</Text>
+                        <TextInput
+                        style={styles.txtInput}
+                        onChangeText={(enteredPass) => setEnteredPass(enteredPass)}
+                        value={enteredPass}
                         />
                         <TouchableHighlight
                         style={{ ...styles.openButton, backgroundColor: "#2196F3" }}

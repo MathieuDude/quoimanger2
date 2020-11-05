@@ -57,6 +57,7 @@ const styles = StyleSheet.create({
         height:75,
         backgroundColor:'#fff',
         borderRadius:20,
+        margin: 5
     },
     voteContainer: {
         paddingTop: 10,
@@ -76,6 +77,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         borderBottomColor: 'black',
         borderBottomWidth: 1,
+        textAlign: 'center'
     },
     sousTitre: {
         fontSize: 24,
