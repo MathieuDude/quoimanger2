@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
-import MapView, {Polygon, Polyline, Marker} from 'react-native-maps';
+import MapView, {Circle, Polygon, Polyline, Marker} from 'react-native-maps';
 import styles from '../styles';
 import ApiKeys from '../ApiKeys';
 import Slider from '@react-native-community/slider';
@@ -23,6 +23,18 @@ const CreationSalon = ({route, navigation}) => {
         "latitudeDelta": 0.7755658183766698,
         "longitudeDelta": 0.6969268496238357,
     };
+
+    const coord2 = {
+        "latitude": 45.6422237,
+        "longitude": -73.8446587
+    };
+
+    const coord3 = {
+        "latitude": userLocation._W.coords.latitude,
+        "longitude": userLocation._W.coords.longitude
+    };
+
+
     const _getLocation = async () => {
         var { status } = {};
         if(status != 'granted')
@@ -36,11 +48,20 @@ const CreationSalon = ({route, navigation}) => {
 
     return(
         <View style={styles.formContainer}>
-            <MapView  initialRegion={coord1}
+            <MapView  
+                initialRegion={coord1}
                 style={{
                     width: Dimensions.get('window').width,
                     height: Dimensions.get('window').height*0.7
-                }}>
+                }}
+                showsMyLocationButton={true}   
+                showsUserLocation={true} 
+            >
+                <Circle
+                    center={coord2}
+                    radius={sliderValue*1000}
+                    fillColor={"rgba(40, 173, 234,0.5)"}
+                />
             </MapView>
             <Text style={styles.formLabel}>Rayon de recherche: </Text>
             <Slider
@@ -56,17 +77,19 @@ const CreationSalon = ({route, navigation}) => {
                 minimumValue={0.5}
                 maximumValue={20}
             />
-            <Text>Rayon de recherche: {sliderValue}km</Text>
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => {
-                    navigation.navigate('CreationSalon', {searchRadius: sliderValue})
-                }}>
-                <Text style={styles.buttonBlue}>Passé à la prochaine étape</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => {
-                    _getLocation();
-                }}>
-                <Text style={styles.buttonBlue}>GPS</Text>
-            </TouchableOpacity>
+
+                <Text>Rayon de recherche: {sliderValue}km</Text>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+                        navigation.navigate('CreationSalon', {searchRadius: sliderValue})
+                    }}>
+                    <Text style={styles.buttonBlue}>Passé à la prochaine étape</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+                        _getLocation();
+                    }}>
+                    <Text style={styles.buttonBlue}>GPS</Text>
+                </TouchableOpacity>
+            
         </View>
     );
 }
