@@ -58,7 +58,7 @@ const Home = ({navigation}) => {
                     <SalonItem salonItem={item} nav={{navigation}}/>
                 }
             />
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('CreationSalon')}>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('PreCreationSalon')}>
                 <Text style={styles.buttonGreen}>
                     Nouveau Salon
                 </Text>

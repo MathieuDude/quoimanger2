@@ -1,35 +1,40 @@
 import React, { useState } from 'react';
-import { Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import styles from '../styles';
 import * as firebase from 'firebase';
 import ApiKeys from '../ApiKeys';
+import Slider from '@react-native-community/slider';
+
 
 
 const dbh = firebase.firestore();
 
 
 const CreationSalon = ({route, navigation}) => {
-  const [nomSalon, setNomSalon] = useState("");
-  const [motDePasse, setmotDePasse] = useState("");
-  const [placesDetails, setPlacesDetails] = useState([]);
+    const {searchRadius} = route.params;
+    const [nomSalon, setNomSalon] = useState("");
+    const [motDePasse, setmotDePasse] = useState("");
+    const [placesDetails, setPlacesDetails] = useState([]);
 
-  function getRandomInt(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
+    function getRandomInt(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
-  var tempSalonId = getRandomInt(0, 999999999999999999);
-  var salonIdString = tempSalonId.toString();
+    var tempSalonId = getRandomInt(0, 999999999999999999);
+    var salonIdString = tempSalonId.toString();
 
-  const fetchNearestPlacesFromGoogle = () => {
+    const fetchNearestPlacesFromGoogle = () => {
     const latitude = 45.643894; // you can update it with user's latitude & Longitude
     const longitude = -73.843219;
     let radMetter = 5 * 100; // Search withing 500M
     const photoMaxWidth = 712;
     const photoMaxHeight = 1024;
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + radMetter + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
+    //TO TEST REPLACE searchRadius.toString() by an int 
+    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + searchRadius*1000 + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
     
+    // Alert.alert(url.replace("https://maps.googleapis.com/maps/api/place/",""));
 
     fetch(url)
         .then(res => {
@@ -94,7 +99,10 @@ const CreationSalon = ({route, navigation}) => {
   }
 
   if(placesDetails.length == 0)
+  {
     fetchNearestPlacesFromGoogle();
+  }
+    
 
   return(
       <View style={styles.formContainer}>
@@ -112,8 +120,8 @@ const CreationSalon = ({route, navigation}) => {
           value={motDePasse}
         />
         <TouchableOpacity style={styles.buttonContainer} onPress={() => {
-          ajouterSalon()
-          navigation.navigate('Salon', {salonId: tempSalonId, title: nomSalon, password: motDePasse})
+            ajouterSalon();
+            navigation.navigate('Salon', {salonId: tempSalonId, title: nomSalon, password: motDePasse});
           }}>
             <Text style={styles.buttonBlue}>Créer</Text>
         </TouchableOpacity>

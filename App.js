@@ -10,6 +10,8 @@ import Header from './components/Header';
 import Home from './screens/Home';
 import Salon from './screens/Salon';
 import CreationSalon from './screens/CreationSalon';
+import PreCreationSalon from './screens/PreCreationSalon';
+
 import PropositionResto from './screens/PropositionResto';
 import RestoFinal from './screens/RestoFinal';
 import styles from './styles';
@@ -60,6 +62,12 @@ export default class App extends React.Component {
             name="CreationSalon" 
             component={CreationSalon}
             options={{title: "Création de salon"}}
+            //TODO add route for PRECREATION
+          />
+          <Stack.Screen
+            name="PreCreationSalon" 
+            component={PreCreationSalon}
+            options={{title: "Choix de localisation"}}
           />
           <Stack.Screen
             name="RestoFinal"
