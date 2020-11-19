@@ -74,12 +74,13 @@ const styles = StyleSheet.create({
     },
     buttonUser: {
         borderWidth:2,
-        borderColor:'black',
+        borderColor:'white',
         alignItems:'center',
-        width:25,
-        height:25,
+        width:30,
+        height:30,
         borderRadius:50,
-        margin: 5
+        position: 'absolute',
+        right: 10
     },
     voteContainer: {
         position: "absolute",
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
     },
     imgResto: {
         width: '100%',
-        height: '70%',
+        height: '70%'
     },
     nomResto: {
         fontWeight: 'bold',
@@ -126,9 +127,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#171717",
         //backgroundColor:"#42c2f5",
         height: 80,
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 30
+        marginTop: 30,
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent: 'center'
     },
     title:{
         color: "#F3F3F3",

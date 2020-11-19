@@ -13,6 +13,7 @@ import CreationSalon from './screens/CreationSalon';
 import PreCreationSalon from './screens/PreCreationSalon';
 import PropositionResto from './screens/PropositionResto';
 import RestoFinal from './screens/RestoFinal';
+import CreationCompte from './screens/CreationCompte';
 import styles from './styles';
 
 import ApiKeys from './ApiKeys';
@@ -78,6 +79,11 @@ export default class App extends React.Component {
                 headerLeft: null
               })
             }
+          />
+          <Stack.Screen
+            name="CreationCompte"
+            component={CreationCompte}
+            options={{title: "Création de compte"}}
           />
         </Stack.Navigator>
       </NavigationContainer>
