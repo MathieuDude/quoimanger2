@@ -3,7 +3,6 @@ import { Text, View, TextInput, TouchableOpacity, Alert } from 'react-native';
 import styles from '../styles';
 import * as firebase from 'firebase';
 import ApiKeys from '../ApiKeys';
-import Slider from '@react-native-community/slider';
 
 
 

@@ -17,6 +17,10 @@ import * as Permissions from 'expo-permissions';
 const CreationSalon = ({route, navigation}) => {
     const [sliderValue, setSliderValue] = useState(5);
     const [userLocation, setUserLocation] = useState({});
+    const [circleLocation, setCircleLocation] = useState({"latitude": 45.6422237,"longitude": -73.8446587});
+
+
+    
     const coord1 = {
         "latitude": 45.6422237,
         "longitude": -73.8446587,
@@ -29,10 +33,12 @@ const CreationSalon = ({route, navigation}) => {
         "longitude": -73.8446587
     };
 
-    const coord3 = {
-        "latitude": userLocation._W.coords.latitude,
-        "longitude": userLocation._W.coords.longitude
-    };
+    // const coord3 = {
+    //     "latitude": userLocation._W.coords.latitude,
+    //     "longitude": userLocation._W.coords.longitude
+    // };
+
+    //setCircleLocation({"latitude": userLocation._W.coords.latitude,"longitude": userLocation._W.coords.longitude});
 
 
     const _getLocation = async () => {
@@ -42,8 +48,13 @@ const CreationSalon = ({route, navigation}) => {
             status = await Permissions.askAsync(Permissions.LOCATION);
         }
         const userLoc = Location.getCurrentPositionAsync();
+        while(userLoc == {})
+        {}
         setUserLocation(userLoc);
         console.log(userLocation);
+
+
+
     };
 
     return(
@@ -58,7 +69,7 @@ const CreationSalon = ({route, navigation}) => {
                 showsUserLocation={true} 
             >
                 <Circle
-                    center={coord2}
+                    center={circleLocation}
                     radius={sliderValue*1000}
                     fillColor={"rgba(40, 173, 234,0.5)"}
                 />
