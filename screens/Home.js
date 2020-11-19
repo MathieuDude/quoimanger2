@@ -59,7 +59,7 @@ const Home = ({navigation}) => {
                 }
             />
             <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('PreCreationSalon')}>
-                <Text style={styles.buttonGreen}>
+                <Text style={styles.buttonBlue}>
                     Nouveau Salon
                 </Text>
             </TouchableOpacity> 

@@ -98,7 +98,7 @@ const CreationSalon = ({route, navigation}) => {
                 <TouchableOpacity style={styles.buttonContainer} onPress={() => {
                         _getLocation();
                     }}>
-                    <Text style={styles.buttonBlue}>GPS</Text>
+                    <Text style={styles.buttonGreen}>GPS</Text>
                 </TouchableOpacity>
             
         </View>

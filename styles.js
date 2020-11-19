@@ -72,6 +72,15 @@ const styles = StyleSheet.create({
         borderRadius:20,
         margin: 5
     },
+    buttonUser: {
+        borderWidth:2,
+        borderColor:'black',
+        alignItems:'center',
+        width:25,
+        height:25,
+        borderRadius:50,
+        margin: 5
+    },
     voteContainer: {
         position: "absolute",
         bottom: 0,
@@ -115,6 +124,7 @@ const styles = StyleSheet.create({
     },
     header:{
         backgroundColor: "#171717",
+        //backgroundColor:"#42c2f5",
         height: 80,
         alignItems: 'center',
         justifyContent: 'center',
