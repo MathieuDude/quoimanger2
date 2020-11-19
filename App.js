@@ -3,7 +3,7 @@ import * as firebase from 'firebase';
 
 //navigation
 import 'react-native-gesture-handler';
-import { createStackNavigator, StackView } from '@react-navigation/stack';
+import { createStackNavigator, HeaderBackButton, StackView } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
 //local files
 import Header from './components/Header';
@@ -11,7 +11,6 @@ import Home from './screens/Home';
 import Salon from './screens/Salon';
 import CreationSalon from './screens/CreationSalon';
 import PreCreationSalon from './screens/PreCreationSalon';
-
 import PropositionResto from './screens/PropositionResto';
 import RestoFinal from './screens/RestoFinal';
 import styles from './styles';

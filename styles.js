@@ -125,10 +125,6 @@ const styles = StyleSheet.create({
         fontSize: 28,
         fontWeight: '900',
     },
-    txtUserlist:{
-        fontSize: 28,
-        fontWeight: 'bold',
-    },
     txtInput: {
         marginBottom: 20,
         padding: 6,
@@ -191,8 +187,13 @@ const styles = StyleSheet.create({
     textCentered: {
         fontWeight: "bold",
         textAlign: "center",
-        fontSize: 22,
+        fontSize: 24,
         fontWeight: "bold"
+    },
+    textUserlist:{
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 8
     },
     modalText: {
         marginBottom: 15,

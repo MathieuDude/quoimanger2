@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { Alert, Modal, Text, TouchableHighlight, TouchableOpacity, View, Button, TextInput } from 'react-native';
+import { Alert, Modal, Text, TouchableHighlight, TouchableOpacity, View, Button, TextInput, BackHandler } from 'react-native';
+import { HeaderBackButton } from '@react-navigation/stack';
 import styles from '../styles';
 
 //Firebase init
 import * as firebase from 'firebase';
-import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
+//import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 import { FlatList } from 'react-native-gesture-handler';
+//import { unstable_renderSubtreeIntoContainer } from 'react-dom';
+//import { NavigationActions } from 'react-navigation';
 const dbh = firebase.firestore();
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
@@ -22,6 +25,10 @@ const Salon = ({route, navigation}) => {
     const [usersList, setUsersList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
+    //TODO fix this shit
+    navigation.setOptions({
+        headerLeft: () => <HeaderBackButton onPress={ console.log("pop") }/>
+    });
 
     function checkPass(inputedPass)
     {
@@ -33,13 +40,15 @@ const Salon = ({route, navigation}) => {
 
         if(!enteredName)
         {
+            //TODO: faire en sorte qu'un usager vide est bien inscrit dans la BD
+            //(probleme de setState)
             setEnteredName("Usager" + Math.floor(Math.random() * 10000));
         }
         
     }
 
-    async function getUsersList(){
-        await thisLobby.get().then(function (doc){
+    function getUsersList(){
+        thisLobby.get().then(function (doc){
             if(doc.exists){
                 var data = doc.data();
                 var tempUsers = [];
@@ -50,13 +59,10 @@ const Salon = ({route, navigation}) => {
             }
         }).catch((error) =>{
             console.log(error);
-            return false;
         });
-        return true;
-        
     }
 
-    function insertName(enteredName){
+    function insertUser(){
             var newList = [...usersList, enteredName];
             thisLobby.update({
                 users: newList
@@ -64,6 +70,7 @@ const Salon = ({route, navigation}) => {
             .catch(function(error) {
                 console.error("Error adding document: ", error);
             });
+            getUsersList();
             setListener();
     }
 
@@ -75,7 +82,7 @@ const Salon = ({route, navigation}) => {
         })
     }
 
-    //TODO: apeler cette fonction lorsqu'on quitte la page de nimportequel facon, quandmeme important
+    //apeler cette fonction lorsqu'on quitte la page de nimportequel facon
     function unsetListener(){
         thisLobby.onSnapshot(function (doc) {})
     }
@@ -111,7 +118,7 @@ const Salon = ({route, navigation}) => {
                         />
                         <TouchableHighlight
                             style={styles.openButton}
-                            onPress={() => { checkPass(enteredPass); insertName(enteredName)}}>
+                            onPress={() => { checkPass(enteredPass); insertUser(enteredName) }}>
                             <Text style={styles.openButtonText}>Entrer!</Text>
                         </TouchableHighlight>
                     </View>
@@ -122,7 +129,7 @@ const Salon = ({route, navigation}) => {
             <FlatList
                 data={usersList}
                 renderItem={({item}) =>
-                    <Text style={styles.txtUserlist}>-{item}</Text>
+                    <Text style={styles.textUserlist}>- {item}</Text>
                 }
             />
             <TouchableOpacity style={styles.buttonContainer} onPress={() => {
