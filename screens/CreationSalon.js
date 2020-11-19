@@ -90,6 +90,7 @@ const CreationSalon = ({route, navigation}) => {
       title: nomSalon,
       password: motDePasse,
       restoData: placesDetails,
+      users: [],
       votes: {0:0}
     })
     .catch(function(error) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, Modal, Text, TouchableHighlight, TouchableOpacity, View, Button, TextInput, BackHandler } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
 import styles from '../styles';
@@ -25,11 +25,6 @@ const Salon = ({route, navigation}) => {
     const [usersList, setUsersList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    //TODO fix this shit
-    navigation.setOptions({
-        headerLeft: () => <HeaderBackButton onPress={ console.log("pop") }/>
-    });
-
     function checkPass(inputedPass)
     {
         if(inputedPass != password)
@@ -37,14 +32,6 @@ const Salon = ({route, navigation}) => {
             Alert.alert("Mot de passe incorrecte.");
         }
         else{ setModalVisible(!modalVisible); }
-
-        if(!enteredName)
-        {
-            //TODO: faire en sorte qu'un usager vide est bien inscrit dans la BD
-            //(probleme de setState)
-            setEnteredName("Usager" + Math.floor(Math.random() * 10000));
-        }
-        
     }
 
     function getUsersList(){
@@ -63,15 +50,33 @@ const Salon = ({route, navigation}) => {
     }
 
     function insertUser(){
-            var newList = [...usersList, enteredName];
-            thisLobby.update({
-                users: newList
-            })
-            .catch(function(error) {
-                console.error("Error adding document: ", error);
-            });
-            getUsersList();
-            setListener();
+        var tempName = enteredName;
+        if(!enteredName){
+            tempName = generateName();
+            setEnteredName(tempName);
+        }
+        var tempList = [];
+        if(usersList != undefined){
+            tempList = [...usersList, tempName];
+        }
+        else {
+            tempList = [tempName];
+        }
+
+        thisLobby.update({
+            users: tempList
+        })
+        .catch(function(error) {
+            console.error("Error adding document: ", error);
+        });
+    }
+
+    function removeUser() {
+       
+    }
+
+    function generateName(){
+        return "Usager" + Math.floor(Math.random() * 10000);
     }
 
     //Rafraichi la liste des users aussitot qu'il y a un changement
@@ -87,8 +92,15 @@ const Salon = ({route, navigation}) => {
         thisLobby.onSnapshot(function (doc) {})
     }
 
+    //Initialisation de la page
     if(isLoading){
+        //custom back button
+        navigation.setOptions({
+            headerLeft: () => <HeaderBackButton onPress={() => { unsetListener(); removeUser(); navigation.popToTop();} }/>
+        });
+
         getUsersList();
+        setListener();
         setIsLoading(false);
     }
 
@@ -118,7 +130,7 @@ const Salon = ({route, navigation}) => {
                         />
                         <TouchableHighlight
                             style={styles.openButton}
-                            onPress={() => { checkPass(enteredPass); insertUser(enteredName) }}>
+                            onPress={() => { checkPass(enteredPass); insertUser(enteredName);}}>
                             <Text style={styles.openButtonText}>Entrer!</Text>
                         </TouchableHighlight>
                     </View>
