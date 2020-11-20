@@ -11,6 +11,7 @@ const dbh = firebase.firestore();
 
 const CreationSalon = ({route, navigation}) => {
     const {searchRadius} = route.params;
+    const {searchCoords} = route.params;
     const [nomSalon, setNomSalon] = useState("");
     const [motDePasse, setmotDePasse] = useState("");
     const [placesDetails, setPlacesDetails] = useState([]);
@@ -25,62 +26,49 @@ const CreationSalon = ({route, navigation}) => {
     var salonIdString = tempSalonId.toString();
 
     const fetchNearestPlacesFromGoogle = () => {
-    const latitude = 45.643894; // you can update it with user's latitude & Longitude
-    const longitude = -73.843219;
-    let radMetter = 5 * 100; // Search withing 500M
     const photoMaxWidth = 712;
     const photoMaxHeight = 1024;
-    //TO TEST REPLACE searchRadius.toString() by an int 
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + latitude + ',' + longitude + '&radius=' + searchRadius*1000 + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
+    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + searchCoords.latitude + ',' + searchCoords.longitude + '&radius=' + searchRadius*1000 + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
     
-    // Alert.alert(url.replace("https://maps.googleapis.com/maps/api/place/",""));
-
     fetch(url)
         .then(res => {
-            return res.json()
+            return res.json();
         })
         .then(res => {
-        if(res.status !== "ZERO_RESULTS")
-        {
-            var placesId = 0;
-            var places = []; // This Array WIll contain locations received from google
-            for(let googlePlace of res.results) {
-                var place = {}
-                // var lat = googlePlace.geometry.location.lat;
-                // var lng = googlePlace.geometry.location.lng;
-                // var coordinate = {
-                //     latitude: lat,
-                //     longitude: lng,
-                // }
-    
-                var gallery = []
-                if (googlePlace.photos) {
-                    for(let photo of googlePlace.photos) {
-                        var photoUrl = ApiKeys.googleMapsAPI.googlePicBaseUrl + 'photoreference=' + photo.photo_reference + '&key=' + ApiKeys.googleMapsAPI.key + '&maxwidth=' + photoMaxWidth + '&maxheight=' + photoMaxHeight;
-                        gallery.push(photoUrl);
+            if(res.status !== "ZERO_RESULTS")
+            {
+                var placesId = 0;
+                var places = [];
+                for(let googlePlace of res.results) {
+                    var place = {};
+
+        
+                    var gallery = [];
+                    if (googlePlace.photos) {
+                        for(let photo of googlePlace.photos) {
+                            var photoUrl = ApiKeys.googleMapsAPI.googlePicBaseUrl + 'photoreference=' + photo.photo_reference + '&key=' + ApiKeys.googleMapsAPI.key + '&maxwidth=' + photoMaxWidth + '&maxheight=' + photoMaxHeight;
+                            gallery.push(photoUrl);
+                        }
                     }
+
+                    place['id'] = placesId++;
+                    place['googlePlaceId'] = googlePlace.place_id;
+                    place['name'] = googlePlace.name;
+                    place['gallery'] = gallery;
+                    place['address'] = googlePlace.vicinity;
+                    place['rating'] = googlePlace.rating;
+
+                    places.push(place);
                 }
-
-                place['id'] = placesId++;
-                place['googlePlaceId'] = googlePlace.place_id;
-                place['name'] = googlePlace.name;
-                place['gallery'] = gallery;
-                place['address'] = googlePlace.vicinity;
-                place['rating'] = googlePlace.rating;
-                //place['phone'] = googlePlace.formatted_phone_number;
-                //place['website_url'] = googlePlace.formatted_phone_number;
-
-                places.push(place);
+                setPlacesDetails(places);
             }
-            setPlacesDetails(places);
-        }
-        else{
-            //avertir l'usager qu'aucun resto n'a ete trouvé
-            Alert.alert("Aucun resto trouvé. SVP Réessayer.");
-        }
-      })
-      .catch(error => {
-        console.log(error);
+            else{
+                //avertir l'usager qu'aucun resto n'a ete trouvé
+                Alert.alert("Aucun resto trouvé. SVP Réessayer.");
+            }
+        })
+        .catch(error => {
+            console.log(error);
     });
   }
 

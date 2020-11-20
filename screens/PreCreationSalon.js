@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import MapView, {Circle, Polygon, Polyline, Marker} from 'react-native-maps';
 import styles from '../styles';
@@ -18,7 +18,7 @@ const CreationSalon = ({route, navigation}) => {
     const [sliderValue, setSliderValue] = useState(5);
     const [userLocation, setUserLocation] = useState({});
     const [circleLocation, setCircleLocation] = useState({"latitude": 45.6422237,"longitude": -73.8446587});
-
+    const mapRef = useRef(null);
 
     
     const coord1 = {
@@ -28,19 +28,6 @@ const CreationSalon = ({route, navigation}) => {
         "longitudeDelta": 0.6969268496238357,
     };
 
-    const coord2 = {
-        "latitude": 45.6422237,
-        "longitude": -73.8446587
-    };
-
-    // const coord3 = {
-    //     "latitude": userLocation._W.coords.latitude,
-    //     "longitude": userLocation._W.coords.longitude
-    // };
-
-    //setCircleLocation({"latitude": userLocation._W.coords.latitude,"longitude": userLocation._W.coords.longitude});
-
-
     const _getLocation = async () => {
         var { status } = {};
         if(status != 'granted')
@@ -48,13 +35,15 @@ const CreationSalon = ({route, navigation}) => {
             status = await Permissions.askAsync(Permissions.LOCATION);
         }
         const userLoc = Location.getCurrentPositionAsync();
-        while(userLoc == {})
-        {}
+       
         setUserLocation(userLoc);
         console.log(userLocation);
-
-
-
+        // mapRef.animateCamera({center: {userLoc.},pitch: 2, heading: 20,altitude: 200, zoom: 40},duration)
+        //STEPS: CREATE NEW ASYNC FUNCTION CALLED BY BUTTON: THIS FUNCTION WAITS FOR userLocation, when userLocation is populated it animates the camera to the desired region
+        //https://stackoverflow.com/questions/56766390/react-native-maps-how-to-use-animatecamera-and-setcamera
+        //https://getstream.io/blog/javascript-promises-and-why-async-await-wins-the-battle/#how-do-i-start-using-async-await
+        //https://github.com/react-native-maps/react-native-maps/blob/master/docs/mapview.md
+        //https://reactjs.org/docs/refs-and-the-dom.html
     };
 
     return(
@@ -65,8 +54,11 @@ const CreationSalon = ({route, navigation}) => {
                     width: Dimensions.get('window').width,
                     height: Dimensions.get('window').height*0.6
                 }}
-                showsMyLocationButton={true}   
-                showsUserLocation={true} 
+                showsMyLocationButton={false}   
+                showsUserLocation={true}
+                showsCompass={false}
+                onPress={e => setCircleLocation(e.nativeEvent.coordinate)}
+                ref={mapRef}
             >
                 <Circle
                     center={circleLocation}
@@ -91,9 +83,9 @@ const CreationSalon = ({route, navigation}) => {
 
                 <Text>Rayon de recherche: {sliderValue}km</Text>
                 <TouchableOpacity style={styles.buttonContainer} onPress={() => {
-                        navigation.navigate('CreationSalon', {searchRadius: sliderValue})
+                        navigation.navigate('CreationSalon', {searchRadius: sliderValue, searchCoords: circleLocation})
                     }}>
-                    <Text style={styles.buttonBlue}>Passé à la prochaine étape</Text>
+                    <Text style={styles.buttonBlue}>Passez à la prochaine étape</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.buttonContainer} onPress={() => {
                         _getLocation();
