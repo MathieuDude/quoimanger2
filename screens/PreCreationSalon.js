@@ -52,7 +52,7 @@ const CreationSalon = ({route, navigation}) => {
                 initialRegion={coord1}
                 style={{
                     width: Dimensions.get('window').width,
-                    height: Dimensions.get('window').height*0.6
+                    height: Dimensions.get('window').height*0.65
                 }}
                 showsMyLocationButton={false}   
                 showsUserLocation={true}

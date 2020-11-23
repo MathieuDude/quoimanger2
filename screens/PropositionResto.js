@@ -97,13 +97,13 @@ const PropositionResto = ({route, navigation}) => {
             <Image style={styles.imgResto} source={{uri: placesDetails[currViewedPlaceId].gallery[0]}}/>
             <Text style={styles.nomResto}>{placesDetails[currViewedPlaceId].name}</Text>
             <View style={styles.voteContainer}>
-                <TouchableOpacity style={styles.buttonVote} onPress={() => voterNon()}>
+                <TouchableOpacity style={styles.buttonVoteRed} onPress={() => voterNon()}>
                     <Ionicons name="md-close" size={90} color="red"/>
                 </TouchableOpacity>
                 {/*<TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
                     <Ionicons name="ios-restaurant" size={75} color="blue"/>
                 </TouchableOpacity>*/}
-                <TouchableOpacity style={styles.buttonVote} onPress={() => voterOui()}>
+                <TouchableOpacity style={styles.buttonVoteGreen} onPress={() => voterOui()}>
                     <Ionicons name="md-checkmark" size={90} color="green"/>
                 </TouchableOpacity>
             </View>

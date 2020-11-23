@@ -146,9 +146,10 @@ const Salon = ({route, navigation}) => {
             >
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.formLabel}>Nom d'usager (optionnel):</Text>
+                        <Text style={styles.formLabel}>Nom d'usager :</Text>
                         <TextInput
                             style={styles.txtInput}
+                            placeholder={"(optionnel)"}
                             onChangeText={(value) => setEnteredName(value)}
                             value={enteredName}
                         />

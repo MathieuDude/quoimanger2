@@ -48,23 +48,56 @@ const styles = StyleSheet.create({
         textAlign: "center",
         padding: 10,
         fontWeight: "bold",
-        fontSize: 18
+        fontSize: 18,
+        borderRadius: 15,
+        color: '#bdecff',
+        shadowColor: "#bdecff",
+        shadowOffset: {
+            width: 0,
+            height: 8,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 10.32,
+
+        elevation: 16,
+
     },
     buttonGreen: {
         width: '100%',
         backgroundColor: '#66DB24',
+        color: '#c4ffc2',
         textAlign: "center",
         padding: 10,
         fontWeight: "bold",
-        fontSize: 18
+        fontSize: 18,
+        borderRadius: 15,
+        shadowColor: '#c4ffc2',
+        shadowOffset: {
+            width: 0,
+            height: 8,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 10.32,
+
+        elevation: 16,
     },
     restoPropositionContainer: {
         flex: 1,
         width: '100%',
     },
-    buttonVote: {
+    buttonVoteGreen: {
+
+        alignItems:'center',
+        width:90,
+        height:90,
+        backgroundColor:'#fff',
+        borderRadius:20,
+        margin: 5,
+        backgroundColor: '#c1ffb3'
+    },
+    buttonVoteRed: {
         borderWidth:1,
-        borderColor:'rgba(0,0,0,0.2)',
+        borderColor:'#ff0000',
         alignItems:'center',
         width:90,
         height:90,
@@ -74,7 +107,7 @@ const styles = StyleSheet.create({
     },
     buttonUser: {
         borderWidth:2,
-        borderColor:'white',
+        borderColor:'black',
         alignItems:'center',
         width:30,
         height:30,
@@ -113,29 +146,40 @@ const styles = StyleSheet.create({
     sousTitre: {
         fontSize: 24,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        color: '#808080'
     },
     salonItem: {
-        backgroundColor: '#D3D3D3',
+        backgroundColor: '#d6d6d6',
         padding: 15,
         marginVertical: 8,
         marginHorizontal: 16,
         textAlign: "center",
-        fontWeight: "bold"
+        fontWeight: "bold",
+        borderRadius: 15,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
+        elevation: 4,
+        color: '#292929'
     },
     header:{
-        backgroundColor: "#171717",
+        backgroundColor: "#ffffff",
         //backgroundColor:"#42c2f5",
         height: 80,
         marginTop: 30,
         flexDirection: 'row',
-        alignItems:'center',
-        justifyContent: 'center'
+        alignItems:'center'
     },
     title:{
         color: "#F3F3F3",
         fontSize: 28,
         fontWeight: '900',
+        justifyContent:"center"
     },
     txtInput: {
         marginBottom: 20,
@@ -210,7 +254,13 @@ const styles = StyleSheet.create({
     modalText: {
         marginBottom: 15,
         textAlign: "center"
-    }
+    },
+    tinyLogo: {
+        width: 50,
+        height: 50,
+        // marginRight: 60,
+        // marginLeft:20
+      },
   });
 
 export default styles;

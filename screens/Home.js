@@ -50,7 +50,7 @@ const Home = ({navigation}) => {
     return(
         <View style={styles.container}>
             <StatusBar style="auto" />
-            <Text style={styles.sousTitre}>Salons</Text>
+            <Text style={styles.sousTitre}>Les salons:</Text>
             <FlatList
                 data={salonsData}
                 keyExtractor={item => item.salonId}
