@@ -228,6 +228,13 @@ const styles = StyleSheet.create({
         elevation: 2,
         width: "90%"
     },
+    openButtonVert: {
+        backgroundColor: "#66DB24",
+        borderRadius: 10,
+        padding: 5,
+        elevation: 2,
+        width: "90%"
+    },
     openButtonText: {
         paddingLeft: "10%",
         paddingRight: "10%",
