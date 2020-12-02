@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import MapView, {Circle, Polygon, Polyline, Marker} from 'react-native-maps';
 import styles from '../styles';
@@ -18,14 +18,22 @@ const CreationSalon = ({route, navigation}) => {
     const [sliderValue, setSliderValue] = useState(5);
     const [userLocation, setUserLocation] = useState({});
     const [circleLocation, setCircleLocation] = useState({"latitude": 45.6422237,"longitude": -73.8446587});
-    const mapRef = useRef(null);
+    const [isLoading, setIsLoading] = useState(0);
+    // const mapRef = useRef(null);
+
+    useEffect(() => {
+        if(isLoading < 10)
+        {
+            _getLocation();
+        }
+    });
 
     
     const coord1 = {
         "latitude": 45.6422237,
         "longitude": -73.8446587,
-        "latitudeDelta": 0.7755658183766698,
-        "longitudeDelta": 0.6969268496238357,
+        "latitudeDelta": 1,
+        "longitudeDelta": 1,
     };
 
     const _getLocation = async () => {
@@ -38,13 +46,9 @@ const CreationSalon = ({route, navigation}) => {
        
         setUserLocation(userLoc);
         console.log(userLocation);
-        // mapRef.animateCamera({center: {userLoc.},pitch: 2, heading: 20,altitude: 200, zoom: 40},duration)
-        //STEPS: CREATE NEW ASYNC FUNCTION CALLED BY BUTTON: THIS FUNCTION WAITS FOR userLocation, when userLocation is populated it animates the camera to the desired region
-        //https://stackoverflow.com/questions/56766390/react-native-maps-how-to-use-animatecamera-and-setcamera
-        //https://getstream.io/blog/javascript-promises-and-why-async-await-wins-the-battle/#how-do-i-start-using-async-await
-        //https://github.com/react-native-maps/react-native-maps/blob/master/docs/mapview.md
-        //https://reactjs.org/docs/refs-and-the-dom.html
+        setIsLoading(isLoading+1);
     };
+    
 
     return(
         <View style={styles.formContainer}>
@@ -52,13 +56,13 @@ const CreationSalon = ({route, navigation}) => {
                 initialRegion={coord1}
                 style={{
                     width: Dimensions.get('window').width,
-                    height: Dimensions.get('window').height*0.65
+                    height: Dimensions.get('window').height*0.70,
+                    marginTop: 20
                 }}
-                showsMyLocationButton={false}   
+                showsMyLocationButton={true}   
                 showsUserLocation={true}
                 showsCompass={false}
                 onPress={e => setCircleLocation(e.nativeEvent.coordinate)}
-                ref={mapRef}
             >
                 <Circle
                     center={circleLocation}
@@ -87,11 +91,11 @@ const CreationSalon = ({route, navigation}) => {
                     }}>
                     <Text style={styles.buttonBlue}>Passez à la prochaine étape</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.buttonContainer} onPress={() => {
+                {/* <TouchableOpacity style={styles.buttonContainer} onPress={() => {
                         _getLocation();
                     }}>
                     <Text style={styles.buttonGreen}>GPS</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             
         </View>
     );

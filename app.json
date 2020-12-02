@@ -9,7 +9,10 @@
       "**/*"
     ],
     "android": {
-      "package": "com.quoimanger.quoimanger"
+      "package": "com.quoimanger.quoimanger",
+      "versionCode": 1
     }
   }
 }
+
+

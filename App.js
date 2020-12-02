@@ -62,7 +62,6 @@ export default class App extends React.Component {
             name="CreationSalon" 
             component={CreationSalon}
             options={{title: "Création de salon"}}
-            //TODO add route for PRECREATION
           />
           <Stack.Screen
             name="PreCreationSalon" 
