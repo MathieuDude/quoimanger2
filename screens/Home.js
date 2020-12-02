@@ -62,7 +62,6 @@ const Home = ({navigation}) => {
     }
 
     if(isLoading){
-        getLobbies();
         setDBListener();
         setIsLoading(false);
     }

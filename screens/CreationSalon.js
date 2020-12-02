@@ -73,12 +73,14 @@ const CreationSalon = ({route, navigation}) => {
   }
 
   function ajouterSalon(){
+    let emptyArray = [];
+
     dbh.collection("lobbies").doc(salonIdString).set({
       salonId: tempSalonId,
       title: nomSalon,
       password: motDePasse,
       restoData: placesDetails,
-      users: [],
+      users: emptyArray,
       votes: {0:0}
     })
     .catch(function(error) {
