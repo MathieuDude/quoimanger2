@@ -19,6 +19,7 @@ const Home = ({navigation}) => {
     const [salonData, setSalonData] = useState([]);
 
     const lobbies = dbh.collection("lobbies");
+    var unsubscribe = lobbies.onSnapshot(function (doc) {});
 
     function getLobbies()
     {
@@ -56,10 +57,6 @@ const Home = ({navigation}) => {
         });
     }
 
-    function unsetDBListener(){
-        lobbies.onSnapshot(function (doc) {})
-    }
-
     if(isLoading){
         setDBListener();
         setIsLoading(false);
@@ -77,7 +74,7 @@ const Home = ({navigation}) => {
                         <SalonItem salonItem={item} nav={{navigation}}/>
                     }
                 />
-                <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate('PreCreationSalon'); unsetDBListener(); }}>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate('PreCreationSalon'); unsubscribe(); }}>
                     <Text style={styles.buttonBlue}>
                         Nouveau Salon
                     </Text>

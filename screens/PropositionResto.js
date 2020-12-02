@@ -17,7 +17,6 @@ const PropositionResto = ({route, navigation}) => {
     const [currViewedPlaceId, setcurrViewedPlaceId] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [placesDetails, setPlacesDetails] = useState([]);
-    //TODO: Update le nombre de participants avec la liste
     const [nbParticipants, setNbParticipants] = useState(participants);
     const salonActuel = dbh.collection("lobbies").doc(salonID.toString());
     var voteId = 0;
@@ -38,7 +37,6 @@ const PropositionResto = ({route, navigation}) => {
 
     }
 
-    
     function getPlaceDetails(placeID){
         //Pour get plusieurs photos, à voir dans un futur raproché
     }
@@ -100,9 +98,6 @@ const PropositionResto = ({route, navigation}) => {
                 <TouchableOpacity style={styles.buttonVoteRed} onPress={() => voterNon()}>
                     <Ionicons name="md-close" size={90} color="red"/>
                 </TouchableOpacity>
-                {/*<TouchableOpacity style={styles.buttonVote} onPress={() => voterSuper()}>
-                    <Ionicons name="ios-restaurant" size={75} color="blue"/>
-                </TouchableOpacity>*/}
                 <TouchableOpacity style={styles.buttonVoteGreen} onPress={() => voterOui()}>
                     <Ionicons name="md-checkmark" size={90} color="green"/>
                 </TouchableOpacity>

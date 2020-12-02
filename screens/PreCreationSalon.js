@@ -22,10 +22,8 @@ const CreationSalon = ({route, navigation}) => {
     // const mapRef = useRef(null);
 
     useEffect(() => {
-        if(isLoading)
-        {
+        if(isLoading){
             getLocation();
-            
         }
         setIsLoading(false);
     });

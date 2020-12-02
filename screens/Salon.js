@@ -19,6 +19,7 @@ const Salon = ({route, navigation}) => {
     const {password} = route.params;
 
     const thisLobby = dbh.collection("lobbies").doc(salonId.toString());
+    var unsubscribe = thisLobby.onSnapshot(function (doc) {})
     
     const [modalVisible, setModalVisible] = useState(true);
     const [enteredPass, setEnteredPass] = useState("");
@@ -110,7 +111,7 @@ const Salon = ({route, navigation}) => {
 
     //Rafraichi la liste des users aussitot qu'il y a un changement
     function setDBListener(){
-        thisLobby.onSnapshot(function (doc) {
+        unsubscribe = thisLobby.onSnapshot(function (doc) {
             var data = doc.data();
             var tempUsers = [];
             for(var user of data.users){
@@ -118,11 +119,7 @@ const Salon = ({route, navigation}) => {
             }
             setUsersList(tempUsers);
             checkLobbyReadyStatus(usersListRef.current);
-        })
-    }
-
-    function unsetDBListener(){
-        thisLobby.onSnapshot(function (doc) {})
+        });
     }
     
     //Les eventListeners pour enlever l'usager qui quitte le lobby
@@ -138,7 +135,7 @@ const Salon = ({route, navigation}) => {
     }
 
     function leaveLobby(){
-        unsetDBListener();
+        unsubscribe();
         unsetLeaveListeners();
         removeUserFromLobby(usersListRef.current);
         navigation.popToTop();
@@ -170,7 +167,7 @@ const Salon = ({route, navigation}) => {
     }
 
     function checkLobbyReadyStatus(refUsersList){
-        //TODO:  blocker l'entrée au salon, envoyer le nb de gens en params
+        //TODO:  blocker l'entrée au salon
         let readyCount = 0;
         refUsersList.forEach(user => {
             if(user.isReady){
@@ -178,8 +175,9 @@ const Salon = ({route, navigation}) => {
             }
         });
 
+        //se déplacer vers Propo resto
         if(readyCount >= refUsersList.length && refUsersList.length > 0){
-            unsetDBListener();
+            unsubscribe();
             unsetLeaveListeners();
             navigation.navigate('PropositionResto', {salonID: salonId, participants: refUsersList.length});
         }

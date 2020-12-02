@@ -73,12 +73,16 @@ const CreationSalon = ({route, navigation}) => {
 
   function ajouterSalon(){
     let emptyArray = [];
+    let tempNomSalon = "Salon" + salonIdString;
+    if (nomSalon.length != 0)
+      tempNomSalon = nomSalon;
 
     dbh.collection("lobbies").doc(salonIdString).set({
       salonId: tempSalonId,
-      title: nomSalon,
+      title: tempNomSalon,
       password: motDePasse,
       restoData: placesDetails,
+      isJoinable: true,
       users: emptyArray,
       votes: {0:0}
     })
@@ -87,8 +91,7 @@ const CreationSalon = ({route, navigation}) => {
     });
   }
 
-  if(placesDetails.length == 0)
-  {
+  if(placesDetails.length == 0) {
     fetchNearestPlacesFromGoogle();
   }
     
