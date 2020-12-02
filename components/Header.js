@@ -3,7 +3,10 @@ import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image, Modal, Tex
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
 import * as firebase from 'firebase';
+import ApiKeys from '../ApiKeys';
 
+if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
+//initialize DB
 const dbh = firebase.firestore();
 
 const Header = ({navigation}) => {

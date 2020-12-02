@@ -18,23 +18,30 @@ const CreationSalon = ({route, navigation}) => {
     const [sliderValue, setSliderValue] = useState(5);
     const [userLocation, setUserLocation] = useState({});
     const [circleLocation, setCircleLocation] = useState({"latitude": 45.6422237,"longitude": -73.8446587});
-    const [isLoading, setIsLoading] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
     // const mapRef = useRef(null);
 
     useEffect(() => {
-        if(isLoading < 10)
+        if(isLoading)
         {
-            _getLocation();
+            getLocation();
+            
         }
+        setIsLoading(false);
     });
 
     
     const coord1 = {
-        "latitude": 45.6422237,
-        "longitude": -73.8446587,
+        "latitude": 45.5017,
+        "longitude": -73.5673,
         "latitudeDelta": 1,
         "longitudeDelta": 1,
     };
+
+    function getLocation()
+    {
+        _getLocation();
+    }
 
     const _getLocation = async () => {
         var { status } = {};
@@ -45,8 +52,6 @@ const CreationSalon = ({route, navigation}) => {
         const userLoc = Location.getCurrentPositionAsync();
        
         setUserLocation(userLoc);
-        console.log(userLocation);
-        setIsLoading(isLoading+1);
     };
     
 
@@ -56,8 +61,8 @@ const CreationSalon = ({route, navigation}) => {
                 initialRegion={coord1}
                 style={{
                     width: Dimensions.get('window').width,
-                    height: Dimensions.get('window').height*0.70,
-                    marginTop: 20
+                    height: Dimensions.get('window').height*0.7,
+                    marginTop: 8
                 }}
                 showsMyLocationButton={true}   
                 showsUserLocation={true}
