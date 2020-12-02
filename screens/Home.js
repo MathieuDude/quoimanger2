@@ -12,7 +12,6 @@ if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 //initialize DB
 const dbh = firebase.firestore();
 
-//TODO salon data dans un setState, refresh la page a chauqe insertion (comme dans Salon.js)
 var salonsData = [];
 
 const Home = ({navigation}) => {

@@ -5,7 +5,6 @@ import * as firebase from 'firebase';
 import ApiKeys from '../ApiKeys';
 
 
-
 const dbh = firebase.firestore();
 
 

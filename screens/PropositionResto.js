@@ -11,13 +11,14 @@ import * as firebase from 'firebase';
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
 const PropositionResto = ({route, navigation}) => {
-
     const {salonID} = route.params;
+    const {participants} = route.params;
+
     const [currViewedPlaceId, setcurrViewedPlaceId] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [placesDetails, setPlacesDetails] = useState([]);
     //TODO: Update le nombre de participants avec la liste
-    const [nbParticipants, setNbParticipants] = useState(2);
+    const [nbParticipants, setNbParticipants] = useState(participants);
     const salonActuel = dbh.collection("lobbies").doc(salonID.toString());
     var voteId = 0;
 
@@ -30,7 +31,6 @@ const PropositionResto = ({route, navigation}) => {
                     setPlacesDetails(doc.get('restoData'));
                 });
                 setIsLoading(false);
-                
             })
             .catch(function(error) {
                 console.log("Error getting documents: ", error);

@@ -253,7 +253,13 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold"
     },
-    textUserlist:{
+    textUserList:{
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 8
+    },
+    textUserListReady:{
+        color: "#66DB24",
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 8
@@ -267,7 +273,7 @@ const styles = StyleSheet.create({
         height: 50,
         // marginRight: 60,
         // marginLeft:20
-      },
+      }
   });
 
 export default styles;

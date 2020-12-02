@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Alert, Modal, Text, TouchableHighlight, TouchableOpacity, View, Button, TextInput, BackHandler } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
+import UserSalonItem from '../components/UserSalonItem';
 import styles from '../styles';
 
 //Firebase init
@@ -24,6 +25,7 @@ const Salon = ({route, navigation}) => {
     const [enteredName, setEnteredName] = useState("");
     const [usersList, _setUsersList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [readyToVote, setReadyToVote] = useState(false);
 
     const usersListRef = useRef(usersList);
     const setUsersList = data => {
@@ -115,7 +117,7 @@ const Salon = ({route, navigation}) => {
                 tempUsers.push(user);
             }
             setUsersList(tempUsers);
-            checkLobbyReadyStatus(data.users);
+            checkLobbyReadyStatus(usersListRef.current);
         })
     }
 
@@ -135,7 +137,6 @@ const Salon = ({route, navigation}) => {
         BackHandler.removeEventListener("hardwareBackPress", () => {return true;});
     }
 
-
     function leaveLobby(){
         unsetDBListener();
         unsetLeaveListeners();
@@ -144,9 +145,44 @@ const Salon = ({route, navigation}) => {
         return true;
     }
 
-    function checkLobbyReadyStatus(){
-        //TODO: check si tlm est ready, naviger vers proposition resto, blocker l'entrée au salon, envoyer le nb de gens en params
-        //console.log(users);
+    function toggleReady(){
+        if(usersList != undefined){
+            if(readyToVote){
+                //unready?
+            }
+            else {
+                setReadyToVote(true);
+                var tempList = [...usersList];
+                tempList.forEach(function (user){
+                    if(user.username == enteredName){
+                        user.isReady = true;
+                    }
+                });
+
+                thisLobby.update({
+                    users: tempList
+                })
+                .catch(function(error) {
+                    console.error("Error adding document: ", error);
+                });
+            }
+        }
+    }
+
+    function checkLobbyReadyStatus(refUsersList){
+        //TODO:  blocker l'entrée au salon, envoyer le nb de gens en params
+        let readyCount = 0;
+        refUsersList.forEach(user => {
+            if(user.isReady){
+                readyCount++;
+            }
+        });
+
+        if(readyCount >= refUsersList.length && refUsersList.length > 0){
+            unsetDBListener();
+            unsetLeaveListeners();
+            navigation.navigate('PropositionResto', {salonID: salonId, participants: refUsersList.length});
+        }
     }
 
     //Initialisation de la page
@@ -195,11 +231,10 @@ const Salon = ({route, navigation}) => {
             <FlatList
                 data={usersList}
                 renderItem={({item}) =>
-                    <Text style={styles.textUserlist}>- {item.username}</Text>
+                    <UserSalonItem text={item.username} ready={item.isReady}/>
                 }
             />
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => {
-                navigation.navigate('PropositionResto', {salonID: salonId})}}>
+            <TouchableOpacity style={styles.buttonContainer} onPress={() => {toggleReady();}}>
                 <Text style={styles.buttonGreen}>Prêt à voter</Text>
             </TouchableOpacity>
 
