@@ -18,7 +18,9 @@ const PropositionResto = ({route, navigation}) => {
     const [isLoading, setIsLoading] = useState(true);
     const [placesDetails, setPlacesDetails] = useState([]);
     const [nbParticipants, setNbParticipants] = useState(participants);
+
     const salonActuel = dbh.collection("lobbies").doc(salonID.toString());
+    var unsubscribe = salonActuel.onSnapshot(function (doc) {});
     var voteId = 0;
 
     function getRestoData()
@@ -41,6 +43,15 @@ const PropositionResto = ({route, navigation}) => {
         //Pour get plusieurs photos, à voir dans un futur raproché
     }
 
+    function setDBListener(){
+        unsubscribe = salonActuel.onSnapshot(function (doc) {
+            var data = doc.data();
+            for(var restoData of doc.restoData){
+                console.log(restoData["votes"]);
+            }
+        });
+    }
+
     function afficherProchainResto(){
         if(currViewedPlaceId < placesDetails.length - 1)
             setcurrViewedPlaceId(currViewedPlaceId + 1);
@@ -58,6 +69,7 @@ const PropositionResto = ({route, navigation}) => {
                     if(nbVote >= nbParticipants) {
                         var id = parseInt(key);
                         navigation.navigate("RestoFinal", {restoData: placesDetails[id]});
+                        unsubscribe();
                     }
                 }   
             }

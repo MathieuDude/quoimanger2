@@ -34,9 +34,6 @@ const RestoFinal = ({route, navigation}) => {
         <TouchableOpacity style={styles.buttonContainer} onPress={() => { leavePage(); }}>
             <Text style={styles.buttonBlue}>Retourner à l'acceuil</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate('CreationSalon') }}>
-            <Text style={styles.buttonGreen}>Voir les autres options</Text>
-        </TouchableOpacity>
     </View>
     )
  }
