@@ -3,33 +3,17 @@ import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image, Modal, Tex
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
 import * as firebase from 'firebase';
-import {makeRedirectUri, useAuthRequest, useAutoDiscovery} from 'expo-auth-session';
 
-const useProxy = Platform.select({web: false, default: true});
+const dbh = firebase.firestore();
 
 const Header = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [enteredPass, setEnteredPass] = useState("");
     const [enteredName, setEnteredName] = useState("");
-
-    const discovery = useAutoDiscovery('https://dev-7800945.okta.com/oauth2/default');
-    const [request, response, promptAsync] = useAuthRequest(
-        {
-            clientId: 'CLIENT_ID',
-            scopes: ['openid', 'profile'],
-            redirectUri: makeRedirectUri({
-                native: 'come.okta.dev-7800945.okta.com:/callback',
-                useProxy,
-            }),
-        },
-        discovery
-    );
-    React.useEffect(() => {
-        if(response?.type === 'success'){
-            const { code } = response.params;
-        }
-    }, [response]);
+    const [username, setUsername] = useState("");
+    
     var tempUserId = getRandomInt(0, 999999999999999999);
+    var userIdString = tempUserId.toString();
 
     function getRandomInt(min, max) {
         min = Math.ceil(min);
@@ -41,18 +25,29 @@ const Header = ({navigation}) => {
         setModalVisible(!modalVisible);
     }
     function createAccount(){
-        /*dbh.collection("comptes").doc(userIdString).set({
+        dbh.collection("comptes").doc(userIdString).set({
           userId: tempUserId,
-          nom: nomUser,
-          password: motDePasse
+          nom: enteredName,
+          password: enteredPass
         })
         .catch(function(error) {
           console.error("Error adding document: ", error);
-        });*/
-        ToastAndroid.show("creation compte: "+ tempUserId, ToastAndroid.SHORT);
+        });
+        ToastAndroid.show("creation compte: "+ enteredName, ToastAndroid.SHORT);
     }
     function login(){
-        //dbh.collection("comptes").get().then()
+        dbh.collection("comptes").get().then()
+        dbh.collection("comptes").where("nom", "==", enteredName).get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                setUsername(doc.get('nom'));
+            });
+            
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+        setModalVisible(!modalVisible); 
         ToastAndroid.show("Login", ToastAndroid.SHORT);
     }
     return (
@@ -70,6 +65,7 @@ const Header = ({navigation}) => {
                 <TouchableOpacity style={styles.buttonUser} onPress={() => openModal()}>
                         <Ionicons name="md-person" size={25} color="black"/>
                 </TouchableOpacity>
+                <Text>{username}</Text>
                 <Modal
                 animationType="slide"
                 transparent={true}
@@ -96,14 +92,13 @@ const Header = ({navigation}) => {
                             />
                             <TouchableHighlight
                                 style={styles.openButton}
-                                disabled={!request}
-                                onPress={() => {promptAsync({useProxy});}}>
+                                onPress={() => {login();}}>
                                 <Text style={styles.openButtonText}>Login</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
                                 style={styles.openButtonVert}
                                 onPress={() => {createAccount();}}>
-                                <Text style={styles.openButtonText}>Sign in</Text>
+                                <Text style={styles.openButtonText}>Sign up</Text>
                             </TouchableHighlight>
                         </View>
                     </View>
