@@ -1,15 +1,34 @@
 import React, {useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image, Modal, TextInput, TouchableHighlight, ToastAndroid} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image, Modal, TextInput, TouchableHighlight, ToastAndroid, Platform} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
 import * as firebase from 'firebase';
+import {makeRedirectUri, useAuthRequest, useAutoDiscovery} from 'expo-auth-session';
 
+const useProxy = Platform.select({web: false, default: true});
 
 const Header = ({navigation}) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [enteredPass, setEnteredPass] = useState("");
     const [enteredName, setEnteredName] = useState("");
 
+    const discovery = useAutoDiscovery('https://dev-7800945.okta.com/oauth2/default');
+    const [request, response, promptAsync] = useAuthRequest(
+        {
+            clientId: 'CLIENT_ID',
+            scopes: ['openid', 'profile'],
+            redirectUri: makeRedirectUri({
+                native: 'come.okta.dev-7800945.okta.com:/callback',
+                useProxy,
+            }),
+        },
+        discovery
+    );
+    React.useEffect(() => {
+        if(response?.type === 'success'){
+            const { code } = response.params;
+        }
+    }, [response]);
     var tempUserId = getRandomInt(0, 999999999999999999);
 
     function getRandomInt(min, max) {
@@ -77,7 +96,8 @@ const Header = ({navigation}) => {
                             />
                             <TouchableHighlight
                                 style={styles.openButton}
-                                onPress={() => {login();}}>
+                                disabled={!request}
+                                onPress={() => {promptAsync({useProxy});}}>
                                 <Text style={styles.openButtonText}>Login</Text>
                             </TouchableHighlight>
                             <TouchableHighlight
