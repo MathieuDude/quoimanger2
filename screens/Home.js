@@ -13,9 +13,7 @@ if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 const dbh = firebase.firestore();
 
 //TODO salon data dans un setState, refresh la page a chauqe insertion (comme dans Salon.js)
-var salonsData = [
-
-];
+var salonsData = [];
 
 const Home = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(true);
@@ -42,10 +40,24 @@ const Home = ({navigation}) => {
 
     }
 
-    if(isLoading){
-        getLobbies();
+    function setDBListener(){
+        thisLobby.onSnapshot(function (doc) {
+            var data = doc.data();
+            var tempUsers = [];
+            for(var user of data.users){
+                tempUsers.push(user);
+            }
+        })
     }
 
+    function unsetDBListener(){
+        thisLobby.onSnapshot(function (doc) {})
+    }
+
+    if(isLoading){
+        getLobbies();
+        setDBListener();
+    }
 
     return(
         <View style={styles.container}>
