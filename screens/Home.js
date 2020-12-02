@@ -21,7 +21,7 @@ const Home = ({navigation}) => {
     const lobbies = dbh.collection("lobbies");
     var unsubscribe = lobbies.onSnapshot(function (doc) {});
 
-    function getLobbies()
+    /*function getLobbies()
     {
         dbh.collection("lobbies")
             .get()
@@ -41,16 +41,17 @@ const Home = ({navigation}) => {
                 console.log("Error getting documents: ", error);
             });
 
-    }
+    }*/
 
     function setDBListener(){
-        lobbies.onSnapshot(function (doc) {
+        unsubscribe = lobbies.onSnapshot(function (doc) {
             salonsData = [];
             doc.forEach(function (data){
                 salonsData.push({   
                     "salonId": data.get('salonId'),
                     "title": data.get('title'),
-                    "password": data.get('password')
+                    "password": data.get('password'),
+                    "isJoinable": data.get('isJoinable')
                 });
             });
             setSalonData(salonsData);
@@ -71,7 +72,7 @@ const Home = ({navigation}) => {
                     data={salonData}
                     keyExtractor={item => item.salonId}
                     renderItem={({item}) =>
-                        <SalonItem salonItem={item} nav={{navigation}}/>
+                        <SalonItem salonItem={item} nav={{navigation}} unsubscribe={() => unsubscribe()}/>
                     }
                 />
                 <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate('PreCreationSalon'); unsubscribe(); }}>

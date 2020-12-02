@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Text, View, TouchableOpacity, Image, BackHandler } from 'react-native';
+import { HeaderBackButton } from '@react-navigation/stack';
 import styles from '../styles';
 
 const RestoFinal = ({route, navigation}) => {
@@ -9,7 +10,7 @@ const RestoFinal = ({route, navigation}) => {
 
     function setLeaveListeners(){
         navigation.setOptions({
-            headerLeft: null,
+            headerLeft: () => <HeaderBackButton onPress={() => { leavePage(); }}/>
         });
         BackHandler.addEventListener("hardwareBackPress", () => {  leavePage(); return true; });
     }
@@ -19,6 +20,8 @@ const RestoFinal = ({route, navigation}) => {
         setisLoading(false);
     }
 
+    //TODO: enlever la personne qui a quitté, effacer le lobby quand cest le dernier
+    //      (optimisation importante, mais n'affecte pas le fonctionnement front-end pour l'instant)
     function leavePage(){
         navigation.popToTop();
     }

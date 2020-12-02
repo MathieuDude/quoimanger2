@@ -9,13 +9,22 @@ import styles from '../styles';
 const SalonItem = (props) => {
     const salonItem = props.salonItem;
     const nav = props.nav;
-    return (
-        <View>
-            <TouchableOpacity onPress={() => nav.navigation.navigate('Salon', {salonId: salonItem.salonId, title: salonItem.title, password: salonItem.password})}>
-                <Text style={styles.salonItem}>{salonItem.title}</Text> 
-            </TouchableOpacity> 
-        </View>
-    );
+    
+    if(salonItem.isJoinable){
+        return (
+            <View>
+                <TouchableOpacity onPress={() => {
+                        props.unsubscribe(); //TODO,bien faire appeler le unsubscribe (besoin de ComponentDidUnmount dans Home.js??)
+                        nav.navigation.navigate('Salon', {salonId: salonItem.salonId, title: salonItem.title, password: salonItem.password});
+                    }}>
+                    <Text style={styles.salonItem}>{salonItem.title}</Text> 
+                </TouchableOpacity> 
+            </View>
+        );
+    }
+    else {
+        return null;
+    }
 };
 
 export default SalonItem;
