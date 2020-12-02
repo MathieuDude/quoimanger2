@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Alert, Modal, Text, TouchableHighlight, TouchableOpacity, View, Button, TextInput, BackHandler } from 'react-native';
 import { HeaderBackButton } from '@react-navigation/stack';
 import styles from '../styles';
@@ -22,19 +22,26 @@ const Salon = ({route, navigation}) => {
     const [modalVisible, setModalVisible] = useState(true);
     const [enteredPass, setEnteredPass] = useState("");
     const [enteredName, setEnteredName] = useState("");
-    const [usersList, setUsersList] = useState([]);
+    const [usersList, _setUsersList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    function checkPass(inputedPass)
-    {
-        if(inputedPass != password)
-        {
-            Alert.alert("Mot de passe incorrecte.");
-        }
-        else{ setModalVisible(!modalVisible); }
+    const usersListRef = useRef(usersList);
+    const setUsersList = data => {
+        usersListRef.current = data;
+        _setUsersList(data);
     }
 
-    function getUsersList(){
+    function checkPass(inputedPass) {
+        if(inputedPass != password && password != "") {
+            Alert.alert("Mot de passe incorrecte.");
+        }
+        else { 
+            setModalVisible(!modalVisible); 
+            insertUserLobby(enteredName);
+        }
+    }
+
+    function getLobbyUsers() {
         thisLobby.get().then(function (doc){
             if(doc.exists){
                 var data = doc.data();
@@ -45,11 +52,11 @@ const Salon = ({route, navigation}) => {
                 setUsersList(tempUsers);
             }
         }).catch((error) =>{
-            console.log(error);
+            console.error(error);
         });
     }
 
-    function insertUser(){
+    function insertUserLobby() {
         //vérifications anti-useState
         var tempUser = {};
         var tempList = [];
@@ -80,12 +87,11 @@ const Salon = ({route, navigation}) => {
         });
     }
 
-    function removeUser() {
+    function removeUserFromLobby(refUsersList) {
         if(usersList != undefined){
-            var tempList = [...usersList];
+            var tempList = [...refUsersList];
             var index = tempList.findIndex(user => user.username === enteredName);
             tempList.splice(index, 1);
-            console.log(tempList);
 
             thisLobby.update({
                 users: tempList
@@ -101,7 +107,7 @@ const Salon = ({route, navigation}) => {
     }
 
     //Rafraichi la liste des users aussitot qu'il y a un changement
-    function setListener(){
+    function setDBListener(){
         thisLobby.onSnapshot(function (doc) {
             var data = doc.data();
             var tempUsers = [];
@@ -112,25 +118,42 @@ const Salon = ({route, navigation}) => {
             checkLobbyReadyStatus(data.users);
         })
     }
-    
-    //ATTENTION: appeler cette methode nimporte ou ailleurs brise la patente (pourquoi? cherpas, demande a react, tk je pert du temps en osti avec des niaiseries dmeme)
-    navigation.setOptions({
-        headerLeft: () => <HeaderBackButton onPress={() => { unsetListener(); removeUser(); navigation.popToTop();} }/>
-    });
-    BackHandler.addEventListener("hardwareBackPress", () => { unsetListener(); removeUser(); navigation.popToTop(); return true;})
 
-    function unsetListener(){
+    function unsetDBListener(){
         thisLobby.onSnapshot(function (doc) {})
     }
+    
+    //Les eventListeners pour enlever l'usager qui quitte le lobby
+    function setLeaveListeners(){
+        navigation.setOptions({
+            headerLeft: () => <HeaderBackButton onPress={() => { leaveLobby(); }}/>
+        });
+        BackHandler.addEventListener("hardwareBackPress", leaveLobby);
+    }
 
-    function checkLobbyReadyStatus(users){
+    function unsetLeaveListeners(){
+        BackHandler.removeEventListener("hardwareBackPress", () => {return true;});
+    }
+
+
+    function leaveLobby(){
+        unsetDBListener();
+        unsetLeaveListeners();
+        removeUserFromLobby(usersListRef.current);
+        navigation.popToTop();
+        return true;
+    }
+
+    function checkLobbyReadyStatus(){
         //TODO: check si tlm est ready, naviger vers proposition resto, blocker l'entrée au salon, envoyer le nb de gens en params
+        //console.log(users);
     }
 
     //Initialisation de la page
     if(isLoading){
-        getUsersList();
-        setListener();
+        getLobbyUsers();
+        setDBListener();
+        setLeaveListeners();
         setIsLoading(false);
     }
 
@@ -161,7 +184,7 @@ const Salon = ({route, navigation}) => {
                         />
                         <TouchableHighlight
                             style={styles.openButton}
-                            onPress={() => { checkPass(enteredPass); insertUser(enteredName);}}>
+                            onPress={() => { checkPass(enteredPass); }}>
                             <Text style={styles.openButtonText}>Entrer!</Text>
                         </TouchableHighlight>
                     </View>
@@ -177,7 +200,7 @@ const Salon = ({route, navigation}) => {
             />
             <TouchableOpacity style={styles.buttonContainer} onPress={() => {
                 navigation.navigate('PropositionResto', {salonID: salonId})}}>
-                <Text style={styles.buttonBlue}>Voir les restos</Text>
+                <Text style={styles.buttonGreen}>Prêt à voter</Text>
             </TouchableOpacity>
 
         </View>
