@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     buttonVoteGreen: {
-
+        borderWidth: 1,
+        borderColor: '#46ff1c',
         alignItems:'center',
         width:90,
         height:90,
         backgroundColor:'#fff',
         borderRadius:20,
         margin: 5,
-        backgroundColor: '#c1ffb3'
     },
     buttonVoteRed: {
         borderWidth:1,
