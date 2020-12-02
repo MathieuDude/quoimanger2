@@ -17,6 +17,9 @@ var salonsData = [];
 
 const Home = ({navigation}) => {
     const [isLoading, setIsLoading] = useState(true);
+    const [salonData, setSalonData] = useState([]);
+
+    const lobbies = dbh.collection("lobbies");
 
     function getLobbies()
     {
@@ -32,7 +35,7 @@ const Home = ({navigation}) => {
 
                 });
                 setIsLoading(false);
-                
+                setSalonData(salonsData);
             })
             .catch(function(error) {
                 console.log("Error getting documents: ", error);
@@ -41,42 +44,59 @@ const Home = ({navigation}) => {
     }
 
     function setDBListener(){
-        thisLobby.onSnapshot(function (doc) {
-            var data = doc.data();
-            var tempUsers = [];
-            for(var user of data.users){
-                tempUsers.push(user);
-            }
-        })
+        lobbies.onSnapshot(function (doc) {
+            salonsData = [];
+            doc.forEach(function (data){
+                salonsData.push({   
+                    "salonId": data.get('salonId'),
+                    "title": data.get('title'),
+                    "password": data.get('password')
+                });
+            });
+            setSalonData(salonsData);
+        });
     }
 
     function unsetDBListener(){
-        thisLobby.onSnapshot(function (doc) {})
+        lobbies.onSnapshot(function (doc) {})
     }
 
     if(isLoading){
         getLobbies();
         setDBListener();
+        setIsLoading(false);
     }
 
-    return(
-        <View style={styles.container}>
-            <StatusBar style="auto" />
-            <Text style={styles.sousTitre}>Les salons:</Text>
-            <FlatList
-                data={salonsData}
-                keyExtractor={item => item.salonId}
-                renderItem={({item}) =>
-                    <SalonItem salonItem={item} nav={{navigation}}/>
-                }
-            />
-            <TouchableOpacity style={styles.buttonContainer} onPress={() => navigation.navigate('PreCreationSalon')}>
-                <Text style={styles.buttonBlue}>
-                    Nouveau Salon
-                </Text>
-            </TouchableOpacity> 
-        </View>
-    );
+    function RenderPage(){
+        return(
+            <View style={styles.container}>
+                <StatusBar style="auto" />
+                <Text style={styles.sousTitre}>Les salons:</Text>
+                <FlatList
+                    data={salonData}
+                    keyExtractor={item => item.salonId}
+                    renderItem={({item}) =>
+                        <SalonItem salonItem={item} nav={{navigation}}/>
+                    }
+                />
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate('PreCreationSalon'); unsetDBListener(); }}>
+                    <Text style={styles.buttonBlue}>
+                        Nouveau Salon
+                    </Text>
+                </TouchableOpacity> 
+            </View>
+        );
+    }
+
+    function LoadingScreen(){
+        return( 
+            <View style={styles.restoPropositionContainer}>
+                <Text style={{fontSize: 42}}>Loading...</Text>
+            </View>
+        );
+    }
+
+    return salonsData.length ? RenderPage() : LoadingScreen()
 }
 
 export default Home;

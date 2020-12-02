@@ -17,7 +17,7 @@ const Salon = ({route, navigation}) => {
     const {title} = route.params;
     const {password} = route.params;
 
-    const  thisLobby = dbh.collection("lobbies").doc(salonId.toString());
+    const thisLobby = dbh.collection("lobbies").doc(salonId.toString());
     
     const [modalVisible, setModalVisible] = useState(true);
     const [enteredPass, setEnteredPass] = useState("");
