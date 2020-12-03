@@ -4,7 +4,8 @@ import { HeaderBackButton } from '@react-navigation/stack';
 import styles from '../styles';
 
 const RestoFinal = ({route, navigation}) => {
-    const {restoData} = route.params;
+    const {winnerRestoData} = route.params;
+    const {allRestoData} = route.params;
 
     const [isLoading, setisLoading] = useState(true);
 
@@ -18,6 +19,7 @@ const RestoFinal = ({route, navigation}) => {
     if(isLoading){
         setLeaveListeners();
         setisLoading(false);
+        console.log(allRestoData);
     }
 
     //TODO: enlever la personne qui a quitté, effacer le lobby quand cest le dernier
@@ -28,11 +30,14 @@ const RestoFinal = ({route, navigation}) => {
 
     return (
     <View style={styles.restoPropositionContainer}>
-        <Image style={styles.imgResto} source={{uri: restoData.gallery[0]}}/>
-        <Text style={styles.nomResto}>{restoData.name}</Text>
-        <Text style={styles.adresseResto}>{restoData.address}</Text>
+        <Image style={styles.imgResto} source={{uri: winnerRestoData.gallery[0]}}/>
+        <Text style={styles.nomResto}>{winnerRestoData.name}</Text>
+        <Text style={styles.adresseResto}>{winnerRestoData.address}</Text>
         <TouchableOpacity style={styles.buttonContainer} onPress={() => { leavePage(); }}>
             <Text style={styles.buttonBlue}>Retourner à l'acceuil</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate('leaderboard'), {winnerRestoData: winnerRestoData, allRestoData: allRestoData} }}>
+            <Text style={styles.buttonGreen}>Voir les autres options</Text>
         </TouchableOpacity>
     </View>
     )
