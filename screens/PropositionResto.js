@@ -57,7 +57,7 @@ const PropositionResto = ({route, navigation}) => {
                 for(var [key, nbVote] of Object.entries(data.votes)){
                     if(nbVote >= nbParticipants) {
                         var id = parseInt(key);
-                        navigation.navigate("RestoFinal", {restoData: placesDetails[id]});
+                        navigation.navigate("RestoFinal", {winnerRestoData: placesDetails[id], allRestoData: placesDetails});
                     }
                 }   
             }
