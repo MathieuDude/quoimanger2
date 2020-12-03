@@ -126,9 +126,9 @@ const Header = ({navigation}) => {
                 />
                 {/* <Text style={styles.title}>{ props.title }</Text> */}
                 <TouchableOpacity style={styles.buttonUser} onPress={() => openModal()}>
-                        <Ionicons name="md-person" size={25} color="black"/>
+                    <Ionicons name="md-person" size={30} color="black"/>
+                    <Text>{username}</Text>
                 </TouchableOpacity>
-                <Text>{username}</Text>
                 <Modal
                 animationType="slide"
                 transparent={true}

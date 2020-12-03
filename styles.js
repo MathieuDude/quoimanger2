@@ -109,8 +109,8 @@ const styles = StyleSheet.create({
         borderWidth:2,
         borderColor:'black',
         alignItems:'center',
-        width:30,
-        height:30,
+        width:35,
+        height:35,
         borderRadius:50,
         position: 'absolute',
         right: 10
@@ -280,7 +280,8 @@ const styles = StyleSheet.create({
         height: 50,
         // marginRight: 60,
         // marginLeft:20
-      }
+    },
+    
   });
 
 export default styles;
