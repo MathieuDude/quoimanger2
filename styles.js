@@ -235,6 +235,13 @@ const styles = StyleSheet.create({
         elevation: 2,
         width: "90%"
     },
+    openButtonRouge: {
+        backgroundColor: "#f02424",
+        borderRadius: 10,
+        padding: 5,
+        elevation: 2,
+        width: "90%"
+    },
     openButtonText: {
         paddingLeft: "10%",
         paddingRight: "10%",

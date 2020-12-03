@@ -105,6 +105,11 @@ const Header = ({navigation}) => {
             console.log("Error getting documents: ", error);
         });
     }
+    function disconnect(){
+        setUsername("");
+        setModalVisible(!modalVisible);
+        ToastAndroid.show("Deconnexion", ToastAndroid.SHORT);
+    }
     if(isLoading){
         getComptesData();
         setIsLoading(false);
@@ -158,6 +163,11 @@ const Header = ({navigation}) => {
                                 style={styles.openButtonVert}
                                 onPress={() => {createAccount();}}>
                                 <Text style={styles.openButtonText}>Sign up</Text>
+                            </TouchableHighlight>
+                            <TouchableHighlight
+                                style={styles.openButtonRouge}
+                                onPress={() => {disconnect();}}>
+                                <Text style={styles.openButtonText}>Disconnect</Text>
                             </TouchableHighlight>
                         </View>
                     </View>
