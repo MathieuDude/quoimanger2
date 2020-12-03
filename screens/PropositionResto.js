@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, View, TouchableOpacity, Image, Alert, ToastAndroid } from 'react-native';
+import { Text, View, TouchableOpacity, Image, Alert, ToastAndroid, BackHandler } from 'react-native';
 import styles from '../styles';
 import { Ionicons } from '@expo/vector-icons';
 import ApiKeys from '../ApiKeys';
@@ -29,13 +29,19 @@ const PropositionResto = ({route, navigation}) => {
                 querySnapshot.forEach(function(doc) {
                     setPlacesDetails(doc.get('restoData'));
                 });
-                setIsLoading(false);
             })
             .catch(function(error) {
                 console.log("Error getting documents: ", error);
             });
-
     }
+
+    function setLeaveListeners(){
+        navigation.setOptions({
+            headerLeft: null
+        });
+        BackHandler.addEventListener("hardwareBackPress", () => {return true});
+    }
+
 
     function getPlaceDetails(placeID){
         //Pour get plusieurs photos, à voir dans un futur raproché
@@ -44,8 +50,8 @@ const PropositionResto = ({route, navigation}) => {
     function afficherProchainResto(){
         if(currViewedPlaceId < placesDetails.length - 1)
             setcurrViewedPlaceId(currViewedPlaceId + 1);
-        else{
-            ToastAndroid.show("Vote Terminé, veuillez patientez...", ToastAndroid.SHORT);
+        else {
+            navigation.navigate("Leaderboard", {allRestoData: placesDetails, salonID:salonID});
         }
     }
 
@@ -86,6 +92,7 @@ const PropositionResto = ({route, navigation}) => {
 
     if(isLoading){
         getRestoData();
+        setLeaveListeners();
         setIsLoading(false);
     }
 

@@ -81,13 +81,15 @@ const CreationSalon = ({route, navigation}) => {
     if (motDePasse.length > 0)
       tempPassword = motDePasse;
     
+    //Template pour la creation d'un salon, certain champs serons vide
     dbh.collection("lobbies").doc(salonIdString).set({
       salonId: salonIdString,
       title: tempNomSalon,
       password: tempPassword,
       restoData: placesDetails,
       isJoinable: true,
-      users: emptyArray
+      users: emptyArray,
+      votes: {0:0}
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);
@@ -116,7 +118,7 @@ const CreationSalon = ({route, navigation}) => {
         />
         <TouchableOpacity style={styles.buttonContainer} onPress={() => {
             ajouterSalon();
-            navigation.navigate('Salon', {salonId: tempSalonId, title: nomSalon, password: motDePasse});
+            navigation.navigate('Salon', {salonId: salonIdString, title: nomSalon, password: motDePasse});
           }}>
             <Text style={styles.buttonBlue}>Créer</Text>
         </TouchableOpacity>

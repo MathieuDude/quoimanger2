@@ -2,21 +2,13 @@ import React from 'react';
 import { Text, TouchableOpacity, View} from 'react-native';
 import styles from '../styles';
 
-//Reminder des routes/params:
-//navigation.navigate('nomDePage', {param1: paramData, paramX: paramData})
-//Dans "Salon": on le recoit simplement avec Salon = ({route}) => ...
-//Dans "App.js": les params sont défini d'avance pour savoir quoi lui passer
-const LeaderboardItem = (props) => {
-    const salonItem = props.salonItem;
-    const nav = props.nav;
 
-    console.log(salonItem);
+const LeaderboardItem = (props) => {
+    const leaderboardItem = props.leaderboardItem;
     
     return (
         <View>
-            <TouchableOpacity onPress={() => {}}>
-                <Text style={styles.salonItem}>{salonItem.name}</Text> 
-            </TouchableOpacity> 
+            <Text style={styles.salonItem}>{leaderboardItem.resto.name} - {leaderboardItem.nbVote} votes</Text> 
         </View>
     );
 };

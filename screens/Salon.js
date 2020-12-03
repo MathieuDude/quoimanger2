@@ -201,6 +201,8 @@ const Salon = ({route, navigation}) => {
                 visible={modalVisible}
                 onRequestClose={() => {
                     navigation.goBack();
+                    unsubscribe();
+                    unsetLeaveListeners();
                 }}
             >
                 <View style={styles.centeredView}>
