@@ -25,66 +25,69 @@ const CreationSalon = ({route, navigation}) => {
     var salonIdString = tempSalonId.toString();
 
     const fetchNearestPlacesFromGoogle = () => {
-    const photoMaxWidth = 712;
-    const photoMaxHeight = 1024;
-    const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + searchCoords.latitude + ',' + searchCoords.longitude + '&radius=' + searchRadius*1000 + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
-    
-    fetch(url)
-        .then(res => {
-            return res.json();
-        })
-        .then(res => {
-            if(res.status !== "ZERO_RESULTS")
-            {
-                var placesId = 0;
-                var places = [];
-                for(let googlePlace of res.results) {
-                    var place = {};
+      const photoMaxWidth = 712;
+      const photoMaxHeight = 1024;
+      const url = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=' + searchCoords.latitude + ',' + searchCoords.longitude + '&radius=' + searchRadius*1000 + '&type=restaurant' + '&key=' + ApiKeys.googleMapsAPI.key
+      
+      fetch(url)
+          .then(res => {
+              return res.json();
+          })
+          .then(res => {
+              if(res.status !== "ZERO_RESULTS")
+              {
+                  var placesId = 0;
+                  var places = [];
+                  for(let googlePlace of res.results) {
+                      var place = {};
 
-        
-                    var gallery = [];
-                    if (googlePlace.photos) {
-                        for(let photo of googlePlace.photos) {
-                            var photoUrl = ApiKeys.googleMapsAPI.googlePicBaseUrl + 'photoreference=' + photo.photo_reference + '&key=' + ApiKeys.googleMapsAPI.key + '&maxwidth=' + photoMaxWidth + '&maxheight=' + photoMaxHeight;
-                            gallery.push(photoUrl);
-                        }
-                    }
+          
+                      var gallery = [];
+                      if (googlePlace.photos) {
+                          for(let photo of googlePlace.photos) {
+                              var photoUrl = ApiKeys.googleMapsAPI.googlePicBaseUrl + 'photoreference=' + photo.photo_reference + '&key=' + ApiKeys.googleMapsAPI.key + '&maxwidth=' + photoMaxWidth + '&maxheight=' + photoMaxHeight;
+                              gallery.push(photoUrl);
+                          }
+                      }
 
-                    place['id'] = placesId++;
-                    place['googlePlaceId'] = googlePlace.place_id;
-                    place['name'] = googlePlace.name;
-                    place['gallery'] = gallery;
-                    place['address'] = googlePlace.vicinity;
-                    place['rating'] = googlePlace.rating;
+                      place['id'] = placesId++;
+                      place['googlePlaceId'] = googlePlace.place_id;
+                      place['name'] = googlePlace.name;
+                      place['gallery'] = gallery;
+                      place['address'] = googlePlace.vicinity;
+                      place['rating'] = googlePlace.rating;
 
-                    places.push(place);
-                }
-                setPlacesDetails(places);
-            }
-            else{
-                //avertir l'usager qu'aucun resto n'a ete trouvé
-                Alert.alert("Aucun resto trouvé. SVP Réessayer.");
-            }
-        })
-        .catch(error => {
-            console.log(error);
-    });
-  }
+                      places.push(place);
+                  }
+                  setPlacesDetails(places);
+              }
+              else {
+                  //avertir l'usager qu'aucun resto n'a ete trouvé
+                  Alert.alert("Aucun resto trouvé. SVP Réessayer.");
+                  navigation.goBack();
+              }
+          })
+          .catch(error => {
+              console.log(error);
+      });
+    }
 
   function ajouterSalon(){
     let emptyArray = [];
     let tempNomSalon = "Salon" + salonIdString;
-    if (nomSalon.length != 0)
+    let tempPassword = "";
+    if (nomSalon.length > 0)
       tempNomSalon = nomSalon;
-
+    if (motDePasse.length > 0)
+      tempPassword = motDePasse;
+    
     dbh.collection("lobbies").doc(salonIdString).set({
-      salonId: tempSalonId,
+      salonId: salonIdString,
       title: tempNomSalon,
-      password: motDePasse,
+      password: tempPassword,
       restoData: placesDetails,
       isJoinable: true,
-      users: emptyArray,
-      votes: {0:0}
+      users: emptyArray
     })
     .catch(function(error) {
       console.error("Error adding document: ", error);

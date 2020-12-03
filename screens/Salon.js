@@ -167,7 +167,6 @@ const Salon = ({route, navigation}) => {
     }
 
     function checkLobbyReadyStatus(refUsersList){
-        //TODO:  blocker l'entrée au salon
         let readyCount = 0;
         refUsersList.forEach(user => {
             if(user.isReady){
@@ -177,6 +176,9 @@ const Salon = ({route, navigation}) => {
 
         //se déplacer vers Propo resto
         if(readyCount >= refUsersList.length && refUsersList.length > 0){
+            thisLobby.update({
+                isJoinable: false
+            })
             unsubscribe();
             unsetLeaveListeners();
             navigation.navigate('PropositionResto', {salonID: salonId, participants: refUsersList.length});
