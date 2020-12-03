@@ -1,5 +1,5 @@
 import React, {useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image, Modal, TextInput, TouchableHighlight, ToastAndroid, Platform} from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Dimensions, Image, Modal, TextInput, TouchableHighlight, ToastAndroid, Platform, Alert} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
 import * as firebase from 'firebase';
@@ -14,6 +14,8 @@ const Header = ({navigation}) => {
     const [enteredPass, setEnteredPass] = useState("");
     const [enteredName, setEnteredName] = useState("");
     const [username, setUsername] = useState("");
+    const [isLoading, setIsLoading] = useState(true);
+    const [allUsers, setAllUsers] = useState([]);
     
     var tempUserId = getRandomInt(0, 999999999999999999);
     var userIdString = tempUserId.toString();
@@ -27,31 +29,85 @@ const Header = ({navigation}) => {
     {
         setModalVisible(!modalVisible);
     }
+    function getComptesData()
+    {
+        dbh.collection("comptes").get()
+            .then(function(querySnapshot) {
+                querySnapshot.forEach(function(doc) {
+                    allUsers.push({
+                        "userId": doc.get('userId'),
+                        "nom": doc.get('nom'),
+                        "password": doc.get('password')
+                    });
+                });
+                setIsLoading(false);
+            })
+            .catch(function(error) {
+                console.log("Error getting documents: ", error);
+            });
+    }
+    function checkUsername(nom){
+        var isExisting = true;
+        
+        console.log("-------TEST------");
+        console.log(allUsers);
+        for(let e of allUsers){
+            if(e.nom == nom){
+                console.log("SA FONCTIONNE");
+                isExisting = false;
+            }
+        }
+        return isExisting;
+    }
     function createAccount(){
-        dbh.collection("comptes").doc(userIdString).set({
-          userId: tempUserId,
-          nom: enteredName,
-          password: enteredPass
-        })
-        .catch(function(error) {
-          console.error("Error adding document: ", error);
-        });
-        ToastAndroid.show("creation compte: "+ enteredName, ToastAndroid.SHORT);
+        if(enteredName != "" && enteredPass != ""){
+            if(checkUsername(enteredName) == true){
+                ToastAndroid.show("Compte creer: "+ enteredName, ToastAndroid.SHORT);
+                dbh.collection("comptes").doc(userIdString).set({
+                    userId: tempUserId,
+                    nom: enteredName,
+                    password: enteredPass
+                })
+                .catch(function(error) {
+                    console.error("Error adding document: ", error);
+                });
+                allUsers.push({
+                    "userId": tempUserId,
+                    "nom": enteredName,
+                    "password": enteredPass
+                })
+                tempUserId = getRandomInt(0, 999999999999999999);
+                userIdString = tempUserId.toString();
+            }
+            else{
+                ToastAndroid.show("comptes deja existant", ToastAndroid.SHORT);
+            }
+        }
+        else{
+            ToastAndroid.show("champs vide", ToastAndroid.SHORT);
+        }
     }
     function login(){
-        dbh.collection("comptes").get().then()
         dbh.collection("comptes").where("nom", "==", enteredName).get()
         .then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
-                setUsername(doc.get('nom'));
+                if(doc.get('password') == enteredPass){
+                    setUsername(doc.get('nom'));
+                    setModalVisible(!modalVisible); 
+                    ToastAndroid.show("Login", ToastAndroid.SHORT);
+                }
+                else
+                    Alert.alert("Mot de passe incorrecte.");
             });
             
         })
         .catch(function(error) {
             console.log("Error getting documents: ", error);
         });
-        setModalVisible(!modalVisible); 
-        ToastAndroid.show("Login", ToastAndroid.SHORT);
+    }
+    if(isLoading){
+        getComptesData();
+        setIsLoading(false);
     }
     return (
             <View style={styles.header}>
