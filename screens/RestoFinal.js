@@ -7,15 +7,15 @@ const RestoFinal = ({route, navigation}) => {
     const {winnerRestoData} = route.params;
     const {allRestoData} = route.params;
     const {salonID} = route.params;
-
+    const {participants} = route.params;
 
     const [isLoading, setisLoading] = useState(true);
 
     function setLeaveListeners(){
         navigation.setOptions({
-            headerLeft: () => <HeaderBackButton onPress={() => { leavePage(); }}/>
+            headerLeft: () => <HeaderBackButton onPress={() => { navigation.navigate("Leaderboard", {allRestoData: allRestoData, salonID:salonID, participants: participants}); }}/>
         });
-        BackHandler.addEventListener("hardwareBackPress", () => {  leavePage(); return true; });
+        BackHandler.addEventListener("hardwareBackPress", () => { navigation.navigate("Leaderboard", {allRestoData: allRestoData, salonID:salonID, participants: participants}); return true;});
     }
 
     if(isLoading){
@@ -34,11 +34,8 @@ const RestoFinal = ({route, navigation}) => {
         <Image style={styles.imgResto} source={{uri: winnerRestoData.gallery[0]}}/>
         <Text style={styles.nomResto}>{winnerRestoData.name}</Text>
         <Text style={styles.adresseResto}>{winnerRestoData.address}</Text>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => { leavePage(); }}>
-            <Text style={styles.buttonBlue}>Retourner à l'acceuil</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate("Leaderboard", {allRestoData: allRestoData, salonID:salonID}); }}>
-            <Text style={styles.buttonGreen}>Voir les autres options</Text>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate("Leaderboard", {allRestoData: allRestoData, salonID:salonID, participants: participants}); }}>
+            <Text style={styles.buttonGreen}>Voir les résultats</Text>
         </TouchableOpacity>
     </View>
     )

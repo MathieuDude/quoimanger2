@@ -17,7 +17,6 @@ const PropositionResto = ({route, navigation}) => {
     const [currViewedPlaceId, setcurrViewedPlaceId] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
     const [placesDetails, setPlacesDetails] = useState([]);
-    const [nbParticipants, setNbParticipants] = useState(participants);
     const salonActuel = dbh.collection("lobbies").doc(salonID.toString());
     var voteId = 0;
 
@@ -51,7 +50,7 @@ const PropositionResto = ({route, navigation}) => {
         if(currViewedPlaceId < placesDetails.length - 1)
             setcurrViewedPlaceId(currViewedPlaceId + 1);
         else {
-            navigation.navigate("Leaderboard", {allRestoData: placesDetails, salonID:salonID});
+            navigation.navigate("Leaderboard", {allRestoData: placesDetails, salonID:salonID, participants: participants});
         }
     }
 
@@ -61,9 +60,9 @@ const PropositionResto = ({route, navigation}) => {
             {
                 var data = doc.data();
                 for(var [key, nbVote] of Object.entries(data.votes)){
-                    if(nbVote >= nbParticipants) {
+                    if(nbVote >= participants) {
                         var id = parseInt(key);
-                        navigation.navigate("RestoFinal", {winnerRestoData: placesDetails[id], allRestoData: placesDetails, salonID: salonID});
+                        navigation.navigate("RestoFinal", {winnerRestoData: placesDetails[id], allRestoData: placesDetails, salonID: salonID, participants: participants});
                     }
                 }   
             }
@@ -76,12 +75,13 @@ const PropositionResto = ({route, navigation}) => {
     }
 
     function voterOui(){
-        voteId = "votes."+ currViewedPlaceId;
-        salonActuel.update({
-            [voteId]:firebase.firestore.FieldValue.increment(1)
-        })
-        .then(checkVotes());
-        
+        if(currViewedPlaceId < placesDetails.length - 1){
+            voteId = "votes."+ currViewedPlaceId;
+            salonActuel.update({
+                [voteId]:firebase.firestore.FieldValue.increment(1)
+            })
+            .then(checkVotes());
+        }         
         afficherProchainResto();
     }
 

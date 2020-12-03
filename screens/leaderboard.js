@@ -13,6 +13,7 @@ if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 const Leaderboard = ({route, navigation}) => {
     const {salonID} = route.params;
     const {allRestoData} = route.params;
+    const {participants} = route.params;
 
     const [isLoading, setIsLoading] = useState(true);
     const [votesData, setVoteData] = useState(true);
@@ -45,7 +46,12 @@ const Leaderboard = ({route, navigation}) => {
                 let resto = allRestoData[id];
                 let newData = { resto, nbVote }
                 tempArray.push(newData);
+                //jvoulais faire en sorte de faire aparaitre le match, mais sa fait une loop infini si on passe de match à leaderboard :(
+                //if(nbVote >= participants) {
+                //     navigation.navigate("RestoFinal", {winnerRestoData: allRestoData[id], allRestoData: allRestoData, salonID: salonID, participants: participants});
+                // }
             }
+            tempArray.sort((a, b) => a.nbVote < b.nbVote);
             setVoteData(tempArray);
         });
     }
