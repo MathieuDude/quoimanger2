@@ -55,7 +55,7 @@ const CreationSalon = ({route, navigation}) => {
                       place['name'] = googlePlace.name;
                       place['gallery'] = gallery;
                       place['address'] = googlePlace.vicinity;
-                      place['rating'] = googlePlace.rating;
+                      //place['rating'] = googlePlace.rating;
 
                       places.push(place);
                   }
