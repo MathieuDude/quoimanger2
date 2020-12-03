@@ -37,7 +37,7 @@ const RestoFinal = ({route, navigation}) => {
         <TouchableOpacity style={styles.buttonContainer} onPress={() => { leavePage(); }}>
             <Text style={styles.buttonBlue}>Retourner à l'acceuil</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate("leaderboard", {allRestoData: allRestoData, salonID:salonID}); }}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate("Leaderboard", {allRestoData: allRestoData, salonID:salonID}); }}>
             <Text style={styles.buttonGreen}>Voir les autres options</Text>
         </TouchableOpacity>
     </View>

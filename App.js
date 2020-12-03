@@ -14,7 +14,7 @@ import PreCreationSalon from './screens/PreCreationSalon';
 import PropositionResto from './screens/PropositionResto';
 import RestoFinal from './screens/RestoFinal';
 import CreationCompte from './screens/CreationCompte';
-import leaderboard from './screens/leaderboard';
+import Leaderboard from './screens/Leaderboard';
 
 import styles from './styles';
 
@@ -87,9 +87,9 @@ export default class App extends React.Component {
             options={{title: "Création de compte"}}
           />
           <Stack.Screen
-            name="leaderboard" 
-            component={leaderboard}
-            options={{title: "Leaderboard"}}
+            name="Leaderboard" 
+            component={Leaderboard}
+            options={{title: "Résultats"}}
           />
         </Stack.Navigator>
       </NavigationContainer>
