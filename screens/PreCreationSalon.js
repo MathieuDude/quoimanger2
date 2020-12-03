@@ -73,7 +73,7 @@ const CreationSalon = ({route, navigation}) => {
                     fillColor={"rgba(40, 173, 234,0.5)"}
                 />
             </MapView>
-            <Text style={styles.formLabel}>Rayon de recherche: </Text>
+            <Text>Appuyez sur la carte pour sélectionner un emplacement. </Text>
             <Slider
                 style={{width: 300, height: 40}}
                 minimumValue={0}
