@@ -217,6 +217,7 @@ const Salon = ({route, navigation}) => {
                         <Text style={styles.formLabel}>Mot de passe du salon:</Text>
                         <TextInput
                             style={styles.txtInput}
+                            secureTextEntry={true}
                             onChangeText={(value) => setEnteredPass(value)}
                             value={enteredPass}
                         />

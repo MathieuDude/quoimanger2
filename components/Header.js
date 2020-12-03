@@ -90,6 +90,7 @@ const Header = ({navigation}) => {
             querySnapshot.forEach(function(doc) {
                 if(doc.get('password') == enteredPass){
                     setUsername(doc.get('nom'));
+                    window.USERNAME = enteredName;
                     setModalVisible(!modalVisible);
                     ToastAndroid.show("Login", ToastAndroid.SHORT);
                 }
@@ -104,6 +105,7 @@ const Header = ({navigation}) => {
     }
     function disconnect(){
         setUsername("");
+        window.USERNAME = undefined;
         setModalVisible(!modalVisible);
         ToastAndroid.show("Deconnexion", ToastAndroid.SHORT);
     }
@@ -147,6 +149,7 @@ const Header = ({navigation}) => {
                             <Text style={styles.formLabel}>Mot de passe:</Text>
                             <TextInput
                                 style={styles.txtInput}
+                                secureTextEntry={true}
                                 placeholder={"Mot de passe"}
                                 onChangeText={(value) => setEnteredPass(value)}
                                 value={enteredPass}

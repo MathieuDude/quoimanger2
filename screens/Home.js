@@ -6,7 +6,6 @@ import styles from '../styles';
 import ApiKeys from '../ApiKeys';
 
 import * as firebase from 'firebase';
-import  GLOBAL  from '../global';
 
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
