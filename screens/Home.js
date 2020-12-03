@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { Text, TouchableOpacity, View, FlatList, ActivityIndicator} from 'react-native';
+import { Text, TouchableOpacity, View, FlatList, ActivityIndicator, ToastAndroid} from 'react-native';
 import SalonItem from '../components/SalonItem';
 import styles from '../styles';
 import ApiKeys from '../ApiKeys';
 
 import * as firebase from 'firebase';
+import  GLOBAL  from '../global';
 
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 
@@ -62,12 +63,19 @@ const Home = ({navigation}) => {
         setDBListener();
         setIsLoading(false);
     }
-
+    function test(){
+        ToastAndroid.show("test: "+ window.USERNAME, ToastAndroid.SHORT);
+    }
     function RenderPage(){
         return(
             <View style={styles.container}>
                 <StatusBar style="auto" />
                 <Text style={styles.sousTitre}>Les salons:</Text>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => { test(); }}>
+                    <Text style={styles.buttonBlue}>
+                        test
+                    </Text>
+                </TouchableOpacity> 
                 <FlatList
                     data={salonData}
                     keyExtractor={item => item.salonId}

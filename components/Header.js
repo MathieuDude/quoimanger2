@@ -4,7 +4,6 @@ import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
 import * as firebase from 'firebase';
 import ApiKeys from '../ApiKeys';
-import GLOBAL from '../global';
 
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 //initialize DB
