@@ -190,6 +190,9 @@ const Salon = ({route, navigation}) => {
         getLobbyUsers();
         setDBListener();
         setLeaveListeners();
+        if(window.USERNAME != ""){
+            setEnteredName(window.USERNAME);
+        }
         setIsLoading(false);
     }
 
