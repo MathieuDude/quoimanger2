@@ -15,10 +15,12 @@ import PropositionResto from './screens/PropositionResto';
 import RestoFinal from './screens/RestoFinal';
 import CreationCompte from './screens/CreationCompte';
 import Leaderboard from './screens/Leaderboard';
-
 import styles from './styles';
 
 import ApiKeys from './ApiKeys';
+
+import { LogBox } from 'react-native';
+LogBox.ignoreAllLogs();
 
 //checks if firebase is initialized and initializes it if not
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
