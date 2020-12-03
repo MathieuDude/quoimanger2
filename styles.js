@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     },
     imgResto: {
         width: '100%',
-        height: '70%'
+        height: '65%'
     },
     nomResto: {
         fontWeight: 'bold',
