@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import styles from '../styles';
 import * as firebase from 'firebase';
 import ApiKeys from '../ApiKeys';
+import GLOBAL from '../global';
 
 if(!firebase.apps.length) {firebase.initializeApp(ApiKeys.firebaseConfig);}
 //initialize DB
@@ -49,11 +50,8 @@ const Header = ({navigation}) => {
     function checkUsername(nom){
         var isExisting = true;
         
-        console.log("-------TEST------");
-        console.log(allUsers);
         for(let e of allUsers){
             if(e.nom == nom){
-                console.log("SA FONCTIONNE");
                 isExisting = false;
             }
         }
@@ -93,7 +91,7 @@ const Header = ({navigation}) => {
             querySnapshot.forEach(function(doc) {
                 if(doc.get('password') == enteredPass){
                     setUsername(doc.get('nom'));
-                    setModalVisible(!modalVisible); 
+                    setModalVisible(!modalVisible);
                     ToastAndroid.show("Login", ToastAndroid.SHORT);
                 }
                 else
