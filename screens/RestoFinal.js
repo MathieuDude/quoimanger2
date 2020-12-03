@@ -6,6 +6,8 @@ import styles from '../styles';
 const RestoFinal = ({route, navigation}) => {
     const {winnerRestoData} = route.params;
     const {allRestoData} = route.params;
+    const {salonID} = route.params;
+
 
     const [isLoading, setisLoading] = useState(true);
 
@@ -19,7 +21,6 @@ const RestoFinal = ({route, navigation}) => {
     if(isLoading){
         setLeaveListeners();
         setisLoading(false);
-        console.log(allRestoData);
     }
 
     //TODO: enlever la personne qui a quitté, effacer le lobby quand cest le dernier
@@ -36,7 +37,7 @@ const RestoFinal = ({route, navigation}) => {
         <TouchableOpacity style={styles.buttonContainer} onPress={() => { leavePage(); }}>
             <Text style={styles.buttonBlue}>Retourner à l'acceuil</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate('leaderboard'), {winnerRestoData: winnerRestoData, allRestoData: allRestoData} }}>
+        <TouchableOpacity style={styles.buttonContainer} onPress={() => { navigation.navigate("leaderboard", {allRestoData: allRestoData, salonID:salonID}); }}>
             <Text style={styles.buttonGreen}>Voir les autres options</Text>
         </TouchableOpacity>
     </View>

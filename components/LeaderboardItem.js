@@ -6,24 +6,19 @@ import styles from '../styles';
 //navigation.navigate('nomDePage', {param1: paramData, paramX: paramData})
 //Dans "Salon": on le recoit simplement avec Salon = ({route}) => ...
 //Dans "App.js": les params sont défini d'avance pour savoir quoi lui passer
-const SalonItem = (props) => {
+const LeaderboardItem = (props) => {
     const salonItem = props.salonItem;
     const nav = props.nav;
+
+    console.log(salonItem);
     
-    if(salonItem.isJoinable){
-        return (
-            <View>
-                <TouchableOpacity onPress={() => {
-                        nav.navigation.navigate('Salon');
-                    }}>
-                    <Text style={styles.salonItem}>{salonItem.title}</Text> 
-                </TouchableOpacity> 
-            </View>
-        );
-    }
-    else {
-        return null;
-    }
+    return (
+        <View>
+            <TouchableOpacity onPress={() => {}}>
+                <Text style={styles.salonItem}>{salonItem.name}</Text> 
+            </TouchableOpacity> 
+        </View>
+    );
 };
 
-export default SalonItem;
+export default LeaderboardItem;

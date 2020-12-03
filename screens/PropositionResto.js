@@ -57,15 +57,15 @@ const PropositionResto = ({route, navigation}) => {
                 for(var [key, nbVote] of Object.entries(data.votes)){
                     if(nbVote >= nbParticipants) {
                         var id = parseInt(key);
-                        navigation.navigate("RestoFinal", {winnerRestoData: placesDetails[id], allRestoData: placesDetails});
+                        navigation.navigate("RestoFinal", {winnerRestoData: placesDetails[id], allRestoData: placesDetails, salonID: salonID});
                     }
                 }   
             }
             else {
-                ToastAndroid.show("Erreur document inexistant")
+                ToastAndroid.show("Erreur document inexistant");
             }
         }).catch(function(error) {
-            ToastAndroid.show("Erreur inatendue")
+            ToastAndroid.show("Erreur inatendue");
         });
     }
 
