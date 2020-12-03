@@ -125,10 +125,12 @@ const Header = ({navigation}) => {
                     source={require('../assets/logo_pizz_title.png')}
                 />
                 {/* <Text style={styles.title}>{ props.title }</Text> */}
-                <TouchableOpacity style={styles.buttonUser} onPress={() => openModal()}>
-                    <Ionicons name="md-person" size={30} color="black"/>
-                    <Text>{username}</Text>
-                </TouchableOpacity>
+                <View style={styles.buttonUserContainer}>
+                    <TouchableOpacity style={styles.buttonUser} onPress={() => openModal()}>
+                        <Ionicons name="md-person" size={30} color="black"/>
+                    </TouchableOpacity>
+                    <Text numberOfLines={2} ellipsizeMode='tail'>{username}</Text>
+                </View>
                 <Modal
                 animationType="slide"
                 transparent={true}
@@ -157,17 +159,17 @@ const Header = ({navigation}) => {
                             <TouchableHighlight
                                 style={styles.openButton}
                                 onPress={() => {login();}}>
-                                <Text style={styles.openButtonText}>Login</Text>
+                                <Text style={styles.loginModalButtonText}>      Login      </Text>
                             </TouchableHighlight>
                             <TouchableHighlight
                                 style={styles.openButtonVert}
                                 onPress={() => {createAccount();}}>
-                                <Text style={styles.openButtonText}>Sign up</Text>
+                                <Text style={styles.loginModalButtonText}>   Sign up   </Text>
                             </TouchableHighlight>
                             <TouchableHighlight
                                 style={styles.openButtonRouge}
                                 onPress={() => {disconnect();}}>
-                                <Text style={styles.openButtonText}>Disconnect</Text>
+                                <Text style={styles.loginModalButtonText}>Disconnect</Text>
                             </TouchableHighlight>
                         </View>
                     </View>

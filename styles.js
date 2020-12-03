@@ -112,8 +112,12 @@ const styles = StyleSheet.create({
         width:35,
         height:35,
         borderRadius:50,
+    },
+    buttonUserContainer: {
         position: 'absolute',
-        right: 10
+        right: '1%',
+        width: 50,
+        height: 50
     },
     voteContainer: {
         position: "absolute",
@@ -249,6 +253,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         color: 'white',
     },
+    loginModalButtonText:{
+        paddingLeft: "25%",
+        paddingRight: "25%",
+        margin: 5,
+        textAlign: 'center',
+        color: 'white',
+    },
     textStyle: {
         color: "white",
         fontWeight: "bold",
@@ -281,7 +292,6 @@ const styles = StyleSheet.create({
         // marginRight: 60,
         // marginLeft:20
     },
-    
   });
 
 export default styles;
